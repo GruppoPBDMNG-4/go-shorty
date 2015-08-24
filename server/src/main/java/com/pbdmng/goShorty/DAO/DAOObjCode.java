@@ -6,14 +6,17 @@ public enum DAOObjCode {
 	INSERTED(1),
 	DUPLICATE(2);
 	
+	
 	private int code;
 	
 	private DAOObjCode(int v){
 		code = v;
 	}
 	
+
+	/*
 	public int getCode(){
 		return code;
-	}
+	}*/
 
 }
