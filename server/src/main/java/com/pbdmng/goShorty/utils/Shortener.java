@@ -28,10 +28,9 @@ public class Shortener {
 			if(jump > MAX_ATTEMPTS)
 				return randomShorten(longUrl);
 			else
-				++jump; 
+				jump++; 
 		else 
 			jump = 3;
-		
 		
 		try{
 			
@@ -98,18 +97,17 @@ public class Shortener {
 	
 	public static void main(String[] args) {
 		
-		// http://stackoverflow.com/questions/7569335/reverse-a-string-in-java
-		String longUrl = "3";
+		// https://github.com/GruppoPBDMNG-4/go-shorty
+		String longUrl = "https://github.com/GruppoPBDMNG-4/go-shorty";
 		int exit = 0;
+		Scanner in = new Scanner(System.in);;
 		
 		while(exit == 0){
 			out.println(shorten(longUrl));
-			
-			Scanner in = new Scanner(System.in);
-			
 			exit = in.nextInt();
 		}
 		
+		in.close();
 	}
 	
 	

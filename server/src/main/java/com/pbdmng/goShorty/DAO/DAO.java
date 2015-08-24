@@ -15,7 +15,7 @@ public interface DAO {
 	public DAOObj setCliks(String ...param);
 	
 	// da testare
-	List<String> getClicks();
+	public List<String> getClicks();
 	
 
 }
