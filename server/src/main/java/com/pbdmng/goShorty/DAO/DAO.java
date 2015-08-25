@@ -1,21 +1,24 @@
 package com.pbdmng.goShorty.DAO;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import com.pbdmng.goShorty.entity.Click;
 
 public interface DAO {
 	
-	
-	public DAOObj insertUrl(String longUrl, String shortUrl);
-	public DAOObj updateUrl();
-	public DAOObj deleteUrl();
+	// inserimento
+	public ReplyDAO insertUrl(String shortUrl, String longUrl);
+	public ReplyDAO insertClick(String shortUrl, Click click);
+	// aggiornamento
+	public ReplyDAO updateUrl();
+	public ReplyDAO deleteUrl();
+	// verifica
 	public boolean isPresent(String shortUrl);
-	
-	
-	public String getUrl(String shortUrl);
-	public DAOObj setCliks(String ...param);
-	
-	// da testare
-	public List<String> getClicks();
+	// prelevamento dati
+	public ReplyDAO fetchLongUrl(String shortUrl);
+	public ReplyDAO fetchKeys();
+	public ReplyDAO fetchClicks(String shortUrl);
 	
 
 }

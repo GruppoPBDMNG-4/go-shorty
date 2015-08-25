@@ -5,9 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
+
+import com.google.gson.Gson;
+import com.pbdmng.goShorty.entity.Click;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -16,6 +22,7 @@ import redis.clients.jedis.JedisPool;
 
 public class RedisDAO implements DAO {
 	
+	private final static String CLICK_LIST = ":clicks";
 	private static JedisPool jPool;
 	
 	private Jedis jedis;
@@ -45,80 +52,107 @@ public class RedisDAO implements DAO {
 		
 	}
 	
-	public DAOObj insertUrl(String longUrl, String shortUrl){
-		DAOObjCode resultCode = DAOObjCode.NOT_INSERTED;
-		DAOObj result = new DAOObj();
-		result.setResultCode(resultCode);
-		//preso da un programma di prova, se vuoi testarlo inserisci il main
-		//public static void main(String[] args) {
-			   
-			   shortUrl = "";
-			   //contatore
-			  
-			   
-			   //Data di prova per la lista
-			   long now = System.currentTimeMillis();
-			   Date date = new Date(now);
-			   String dataDaScrivere = new SimpleDateFormat("yyyy-MM-dd").format(date);
-			   
-			   
-			   
-		       //Connecting to Redis server on localhost
-		       
-		      
-		       System.out.println("Connection to server sucessfully");
-		       
-		       //prendo un input come short
-			   Scanner in = new Scanner(System.in);
-		       printIntestazione();
-		       String s = in.nextLine();
-		       shortUrl = s;
-		       
-		       //set the data in redis string
-		       jedis.set(longUrl, shortUrl);
-		       jedis.lpush(shortUrl, dataDaScrivere);
-		       // Get the stored data and print it
-		       System.out.println("Stored string in redis:: " );
-		       List<String> list = jedis.lrange(shortUrl, 0, -1);
-		       for(int i = 0 ; i < list.size(); i++){
-		    	   print(list.get(i));
-		       }
-		       
-		       return result;
-		 }
+	public ReplyDAO insertUrl(String shortUrl, String longUrl){
+		ResultCodeDAO resultCode = ResultCodeDAO.NOT_INSERTED;
+		ReplyDAO reply = new ReplyDAO();
+		System.out.println("Connection to server sucessfully");
+		resultCode.setCode(jedis.setnx(shortUrl, longUrl)); 
+		// Get the stored data and print it
+		//System.out.println("Stored string in redis "+resultCode.getCode() );
+		reply.setResultCode(resultCode);
+		return reply;
+	}
 		
-	// graffa di chiusura al MAIN	
-	//}
 	
 	
-	public DAOObj updateUrl(){
-		DAOObj ob = new DAOObj();
+	
+	public ReplyDAO updateUrl(){
+		ReplyDAO ob = new ReplyDAO();
 		return ob;
 	}
 	
-	public DAOObj deleteUrl(){
-		DAOObj ob = new DAOObj();
+	public ReplyDAO deleteUrl(){
+		ReplyDAO ob = new ReplyDAO();
 		return ob;
 	}
-	public String getUrl(String shortUrl){
-		String ob = new String();
-		return ob;
+	public ReplyDAO fetchLongUrl(String shortUrl){
+		ReplyDAO reply = new ReplyDAO();
+		ResultCodeDAO resultCode = ResultCodeDAO.NOT_PRESENT;
+		if (isPresent(shortUrl)){
+			reply.setLongUrl(jedis.get(shortUrl));
+			resultCode = ResultCodeDAO.OK;
+			print(reply.getLongUrl());
+		}
+		
+		reply.setResultCode(resultCode);
+		return reply;
 	}
-	public DAOObj setCliks(String ...param){
-		DAOObj ob = new DAOObj();
-		return ob;
-	};
-	public List<String> getClicks(){
-		List<String> ob = new ArrayList<String>() ;
-		return ob;
+	
+	public ReplyDAO insertClick(String shortUrl, Click click) {
+		
+		ReplyDAO reply = new ReplyDAO();
+		ResultCodeDAO resultCode = ResultCodeDAO.NOT_PRESENT;
+		
+		Gson gson = new Gson();
+		String jsonClick = gson.toJson(click).toString();
+		print(jsonClick);
+		
+		String key = shortUrl + CLICK_LIST;
+		if(isPresent(shortUrl)){
+			jedis.lpush(key, jsonClick);
+			resultCode = ResultCodeDAO.OK;
+			print(String.valueOf(resultCode.getCode()));
+		}
+		reply.setResultCode(resultCode);
+		
+		return reply;
 	}
 	
 	
-	
-	public static void printIntestazione(){
-		System.out.println("");
-		System.out.println("Inserire lo short url da inserire nel database:");
+	public ReplyDAO fetchKeys() {
+		ReplyDAO reply = new ReplyDAO();
+		ResultCodeDAO resultCode = ResultCodeDAO.NOT_PRESENT;
+		reply.setKeySet(jedis.keys("*"));
+		if( (reply.getKeySet()).size() >= 0) 
+			resultCode = ResultCodeDAO.OK;
+		reply.setResultCode(resultCode);
+		
+		/*
+		Set<String> hs = new HashSet<String>();
+		hs = reply.getKeySet();
+		Iterator it = hs.iterator();
+		while(it.hasNext()) System.out.println(it.next() );
+		System.out.println(hs.size());
+		*/
+		
+		return reply;
 	}
+	
+	public ReplyDAO fetchClicks(String shortUrl) {
+		ReplyDAO reply = new ReplyDAO();
+		ResultCodeDAO resultCode = ResultCodeDAO.NOT_PRESENT;
+		
+		String key = shortUrl + CLICK_LIST;
+		if(isPresent(key)){
+			List<Click> clickList =  new ArrayList<Click>();
+			List<String> jsonList = new ArrayList<String>();
+			jsonList = jedis.lrange(key, 0, -1);
+			Gson gson = new Gson();
+			
+			Click tmp;
+			for(int i = 0; i < jsonList.size(); i++){
+				tmp = gson.fromJson(jsonList.get(i), Click.class);
+				clickList.add(tmp);
+			}
+			reply.setListClicks(clickList);
+			resultCode = ResultCodeDAO.OK;
+		}
+		reply.setResultCode(resultCode);
+		
+		return reply;
+	}
+	
+	
 	
 	public static void print(String s){
 		System.out.println("");
@@ -131,6 +165,35 @@ public class RedisDAO implements DAO {
 			jPool = new JedisPool("localhost");
 		}
 		return jPool.getResource();
+	}
+
+
+	public static void main(String[] args) {
+	RedisDAO redis = new RedisDAO();
+	redis.insertUrl("dj","sparalicchio");
+	print("primo: ");
+	redis.fetchLongUrl("obaoba");
+	print("secondo: ");
+	redis.fetchLongUrl("dj");
+	
+	Click clc = new Click();
+	clc.setBrowser("mozzarella");
+	clc.setIP("195.37.108.130");
+	redis.insertClick("mammt", clc);
+	redis.fetchKeys();
+	
+	List<Click> clickL = new ArrayList<Click>();
+	ReplyDAO rp = redis.fetchClicks("mammt");
+	clickL = rp.getListClicks();
+	print("______________________________________");
+	for(Click c : clickL){
+		print(c.getIP());
+		print(c.getBrowser());
+		print(c.getCountry());
+		print(c.getDate().toString());print("______________________________________");
+	}
+
+	
 	}
 
 }

@@ -31,5 +31,17 @@ public class CountryLocation {
 		
 		return country.getIsoCode();
 	}
+	
+	
+	/*public static void main(String[] args) {
+		try {
+			CountryLocation gino = new CountryLocation();
+			System.out.println(gino.getCountry("15.40.7.243"));
+			
+			
+		} catch (Exception e){
+			
+		}
+	}*/
 
 }

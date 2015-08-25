@@ -50,21 +50,21 @@ public class Click {
 		this.browser = browser;
 	}
 	
-	public void setDate(LocalDate date){
-		this.date = date;
-	}
-	
 	
 	// getter
-	public String getIP(String IP){
+	public String getIP(){
 		return this.IP;
 	}
 	
-	public String getBrowser(String browser){
+	public String getBrowser(){
 		return this.browser;
 	}
 	
-	public LocalDate getDate(LocalDate date){
+	public LocalDate getDate(){
 		return this.date;
+	}
+	
+	public String getCountry(){
+		return this.country;
 	}
 }
