@@ -16,17 +16,12 @@ public enum ResultCodeDAO {
 	}
 	
 	
-	
-
-	
 	public long getCode(){
 		return code;
 	}
 	
 	public void setCode(long v){
 		code = v;
-		
-		
 	}
 
 }
