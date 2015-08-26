@@ -11,6 +11,12 @@ import com.google.gson.Gson;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+/**
+ * 
+ * @author paolobi
+ *
+ */
+
 
 public class RedisDAO implements DAO {
 	
