@@ -146,6 +146,6 @@ public class RedisDAO implements DAO {
 		}
 		return jPool.getResource();
 	}
-
+	
 
 }
