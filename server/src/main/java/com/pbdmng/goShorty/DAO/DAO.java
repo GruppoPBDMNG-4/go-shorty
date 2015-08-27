@@ -12,7 +12,7 @@ public interface DAO {
 	
 	// read
 	public ReplyDAO fetchLongUrl(String shortUrl);
-	public ReplyDAO fetchClicks(String shortUrl);
+	public ReplyDAO fetchClicks(String shortUrl, int from, int to);
 	public ReplyDAO fetchKeys(String regEx);
 	
 	// update

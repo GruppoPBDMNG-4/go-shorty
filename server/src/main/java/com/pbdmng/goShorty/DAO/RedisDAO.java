@@ -4,6 +4,7 @@ import com.pbdmng.goShorty.entity.Click;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import java.io.UnsupportedEncodingException;
 
 import com.google.gson.Gson;
@@ -92,7 +93,7 @@ public class RedisDAO implements DAO {
 		return reply;
 	}
 	
-	public ReplyDAO fetchClicks(String shortUrl) {
+	public ReplyDAO fetchClicks(String shortUrl, int from, int to) {
 		
 		ReplyDAO reply = new ReplyDAO();
 		ResultCodeDAO resultCode = ResultCodeDAO.NOT_PRESENT;
@@ -103,7 +104,7 @@ public class RedisDAO implements DAO {
 			List<Click> clickList =  new ArrayList<Click>();
 			List<String> jsonList = new ArrayList<String>();
 			
-			jsonList = jedis.lrange(shortUrlClicks, 0, -1);
+			jsonList = jedis.lrange(shortUrlClicks, from, to);
 			
 			Gson gson = new Gson();
 			
