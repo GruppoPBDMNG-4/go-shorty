@@ -39,9 +39,9 @@ public class RandomPopulator {
 		
 		JsonArray urlsArray = urlJson.getAsJsonArray("urls") ;
 		for(JsonElement j : urlsArray){
-			longUrl = j.toString();
+			longUrl = j.toString().replace("\"", "");
 			do{
-				longUrl = j.toString().replace("\"", "");
+				//longUrl = j.toString()
 				shortUrl = Shortener.shorten(longUrl);
 				reply = dao.insertUrl(shortUrl, longUrl);
 				

@@ -40,9 +40,15 @@ public class RedisDAO implements DAO {
 		ReplyDAO reply = new ReplyDAO();
 		ResultCodeDAO resultCode = ResultCodeDAO.NOT_INSERTED;
 		
-		resultCode.setCode( jedis.setnx(shortUrl, longUrl) ); 
-		reply.setResultCode(resultCode);
+		resultCode.setCode( jedis.setnx(shortUrl, longUrl) );
 		
+		// controlliamo se lo short e url che si vogliono inserire sono già presenti nel DB
+		// se si, verrà riutilizzato quel link senza generarne un altro
+		if( resultCode.getCode() == 0)
+			if(longUrl.equals( jedis.get(shortUrl) ))
+				resultCode = ResultCodeDAO.INSERTED;
+		
+		reply.setResultCode(resultCode);
 		return reply;
 	}
 	
@@ -152,7 +158,12 @@ public class RedisDAO implements DAO {
 			jPool = new JedisPool("localhost");
 		}
 		return jPool.getResource();
+	} 
+	public static void main(String[] args){
+		RedisDAO jedis = new RedisDAO();
+		ReplyDAO r = new ReplyDAO();
+		r = jedis.insertUrl("bababababa", "pippopippo");
+		System.out.println(r.getResultCode().getCode());
 	}
-	
 
 }
