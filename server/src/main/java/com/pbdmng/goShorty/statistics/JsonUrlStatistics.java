@@ -1,7 +1,6 @@
 package com.pbdmng.goShorty.statistics;
 
-import java.util.HashMap;
-import java.util.Map;
+
 
 import com.google.gson.JsonObject;
 
@@ -42,21 +41,6 @@ public class JsonUrlStatistics extends UrlStatistics{
 	
 	public String getDateStats(){
 		return this.jsonDateStats.toString();
-	}
-	
-	public static void main(String[] args) {
-		JsonUrlStatistics jus = new JsonUrlStatistics("mammt");
-		Map<String, Integer> hm = new HashMap<String, Integer>();
-		String m = jus.getCountryStats();
-		
-		System.out.println(m);
-		m = jus.getDateStats();
-		
-		System.out.println(m);
-		m = jus.getBrowserStats();
-		
-		System.out.println(m);
-		
 	}
 
 }

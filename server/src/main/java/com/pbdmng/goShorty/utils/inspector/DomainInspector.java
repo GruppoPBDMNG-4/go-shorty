@@ -20,11 +20,9 @@ public class DomainInspector {
 		
 		Gson gson = new Gson();
 		
-		try
-		{
-			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir")+RELATIVE_PATH));
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + RELATIVE_PATH));
 			domainsJson = gson.fromJson(br, JsonObject.class);
-			
 		}
 		catch (Exception e){
 			e.printStackTrace();;
@@ -35,7 +33,6 @@ public class DomainInspector {
 	public boolean isNasty(String domain){
 		
 		boolean nasty = false;
-		
 		JsonArray jArray = domainsJson.getAsJsonArray(DOMAINS);
 		
 		if(domain.startsWith("http://"))
@@ -45,9 +42,9 @@ public class DomainInspector {
 		
 		String check;
 		for (JsonElement j : jArray){
-			
 			check = j.toString().replace("\"", "");
-			if(domain.equalsIgnoreCase(check)) {nasty = true; break;}
+			if(domain.equalsIgnoreCase(check)) 
+				nasty = true; break;
 		}
 			
 		return nasty;

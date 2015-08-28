@@ -19,11 +19,9 @@ public class WordInspector {
 		
 		Gson gson = new Gson();
 		
-		try
-		{
-			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir")+RELATIVE_PATH));
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + RELATIVE_PATH));
 			badJson = gson.fromJson(br, JsonObject.class);
-			
 		}
 		catch (Exception e){
 			e.printStackTrace();;
@@ -34,7 +32,6 @@ public class WordInspector {
 	public boolean isNasty(String word){
 		
 		boolean nasty = false;
-	
 		String check ;
 		
 		for (Map.Entry<String, JsonElement> entry : badJson.entrySet()){
@@ -42,9 +39,9 @@ public class WordInspector {
 			JsonArray jarray = entry.getValue().getAsJsonArray();
 			
 			for (JsonElement j : jarray){
-				
 				check = j.toString().replace("\"", "");
-				if(word.equalsIgnoreCase(check)) {nasty = true; break;}
+				if(word.equalsIgnoreCase(check)) 
+					nasty = true; break;
 			}
 		} 
 		

@@ -1,8 +1,6 @@
 package com.pbdmng.goShorty.utils;
 
-
 import java.io.UnsupportedEncodingException;
-// import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 import org.apache.commons.codec.binary.Base64;
@@ -17,6 +15,7 @@ public class Shortener {
 	private static final int MAX_ATTEMPTS = 10; // max 8 attempts 
 	private final static int SHORT_LENGTH = 8;
 	private final static int CASUAL_CHARS = 13;
+	
 	
 	public static String shorten(String longUrl){
 		
@@ -91,8 +90,6 @@ public class Shortener {
 		
 		return shortUrl;
 	}
-	
-	
 	
 	
 	public static void main(String[] args) {

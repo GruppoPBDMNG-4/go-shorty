@@ -14,18 +14,16 @@ public class UrlStatistics {
 	Map<String, Integer> browserStats = new HashMap<String, Integer>();
 	Map<String, Integer> countryStats = new HashMap<String, Integer>();
 	Map<String, Integer> dateStats = new HashMap<String, Integer>();
-	//private final static String CLICK_LIST = ":clicks";
-	
 	
 	public UrlStatistics(String shortUrl){
 		this.shortUrl = shortUrl;
 		generateStats();
 	}
 	
+	
 	private void generateStats(){
 		
 		RedisDAO dao = new RedisDAO();
-		//String shortUrlClicks = shortUrl + CLICK_LIST;
 		List<Click> clickList = new ArrayList<Click>();
 		
 		if(dao.isPresent(shortUrl)){
