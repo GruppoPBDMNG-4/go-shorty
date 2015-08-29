@@ -14,9 +14,16 @@ public class Click {
 	private String country;
 	private LocalDate date;
 	
-	public Click(String IP, String browser){
-		this.IP = IP;
+	public Click(String IP, String userAgent){
+		String browser = "other";
+		if (userAgent.contains("Chrome/")) browser = "chrome";
+		if (userAgent.contains("Firefox/")) browser = "firefox";
+		if (userAgent.contains("Safari/")) browser = "safari";
+		if (userAgent.contains("OPR/")) browser = "opera";
+		if (userAgent.contains(";MSIE")) browser = "explorer";
+		
 		this.browser = browser;
+		this.IP = IP;
 		this.date = LocalDate.now(ZoneId.of("Europe/Rome"));
 		try{
 			CountryLocation countryLocation = new CountryLocation();
@@ -24,6 +31,7 @@ public class Click {
 		}catch(IOException e){
 			e.printStackTrace();
 		}catch(GeoIp2Exception e){
+			this.country = "Valhalla";
 			e.printStackTrace();
 		}
 	}
@@ -42,14 +50,24 @@ public class Click {
 		}catch(IOException e){
 			e.printStackTrace();
 		}catch(GeoIp2Exception e){
+			this.country = "Valhalla";
 			e.printStackTrace();
 		}
 	}
 	
-	public void setBrowser(String browser){
+	public void setBrowser(String userAgent){
+		String browser = "other";
+		if (userAgent.contains("Chrome/")) browser = "chrome";
+		if (userAgent.contains("Firefox/")) browser = "firefox";
+		if (userAgent.contains("Safari/")) browser = "safari";
+		if (userAgent.contains("OPR/")) browser = "opera";
+		if (userAgent.contains(";MSIE")) browser = "explorer";
 		this.browser = browser;
 	}
 	
+	public void setDate(LocalDate date){
+		this.date = date;
+	}
 	
 	// getter
 	public String getIP(){

@@ -12,7 +12,8 @@ import com.google.gson.JsonElement;
 
 public class DomainInspector {
 
-	private final static String RELATIVE_PATH = "/src/main/java/com/pbdmng/goShorty/utils/inspector/badDomains/baddomains.json";
+	private final static String RELATIVE_PATH = 
+			"/src/main/java/com/pbdmng/goShorty/utils/inspector/badDomains/baddomains.json";
 	private final static String DOMAINS = "domains";
 	JsonObject domainsJson;
 	
@@ -21,7 +22,8 @@ public class DomainInspector {
 		Gson gson = new Gson();
 		
 		try{
-			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + RELATIVE_PATH));
+			BufferedReader br = new BufferedReader(new FileReader(
+					System.getProperty("user.dir") + RELATIVE_PATH));
 			domainsJson = gson.fromJson(br, JsonObject.class);
 		}
 		catch (Exception e){
@@ -43,8 +45,10 @@ public class DomainInspector {
 		String check;
 		for (JsonElement j : jArray){
 			check = j.toString().replace("\"", "");
-			if(domain.equalsIgnoreCase(check)) 
-				nasty = true; break;
+			if(domain.equalsIgnoreCase(check)) {
+				nasty = true; 
+				break;
+			}
 		}
 			
 		return nasty;
