@@ -12,9 +12,10 @@ import com.google.gson.JsonElement;
 
 public class WordInspector {
 	
-	private final static String RELATIVE_PATH = "/src/main/java/com/pbdmng/goShorty/utils/inspector/badWords/badwords.json";
-	JsonObject badJson;		
-	
+	JsonObject badJson;
+	private final static String RELATIVE_PATH = 
+			"/src/main/java/com/pbdmng/goShorty/utils/inspector/badWords/badwords.json";
+			
 	public WordInspector(){
 		
 		Gson gson = new Gson();
@@ -24,7 +25,7 @@ public class WordInspector {
 			badJson = gson.fromJson(br, JsonObject.class);
 		}
 		catch (Exception e){
-			e.printStackTrace();;
+			e.printStackTrace();
 		}
 	}
 	
@@ -40,14 +41,16 @@ public class WordInspector {
 			
 			for (JsonElement j : jarray){
 				check = j.toString().replace("\"", "");
-				if(word.equalsIgnoreCase(check)) 
-					nasty = true; break;
+				if(word.equalsIgnoreCase(check)){
+					nasty = true; 
+					break;
+				}
+					
 			}
 		} 
 		
 		return nasty;
 		
 	}
-	
 
 }

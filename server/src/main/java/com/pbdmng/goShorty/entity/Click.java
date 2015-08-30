@@ -3,6 +3,7 @@ package com.pbdmng.goShorty.entity;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.pbdmng.goShorty.utils.ipGeoLocation.CountryLocation;
 
+import java.util.Random;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -19,19 +20,22 @@ public class Click {
 		if (userAgent.contains("Chrome/")) browser = "chrome";
 		if (userAgent.contains("Firefox/")) browser = "firefox";
 		if (userAgent.contains("Safari/")) browser = "safari";
-		if (userAgent.contains("OPR/")) browser = "opera";
+		if (userAgent.contains("OPR/") || userAgent.contains("Opera/")) browser = "opera";
 		if (userAgent.contains(";MSIE")) browser = "explorer";
 		
 		this.browser = browser;
 		this.IP = IP;
 		this.date = LocalDate.now(ZoneId.of("Europe/Rome"));
+		
 		try{
 			CountryLocation countryLocation = new CountryLocation();
 			this.country = countryLocation.getCountry(IP);
 		}catch(IOException e){
 			e.printStackTrace();
 		}catch(GeoIp2Exception e){
-			this.country = "Valhalla";
+			Random rnd = new Random();
+			String[] countries = {"IT", "DE", "US", "JP", "FR", "GB", "IN", "ES", "MX"};
+			this.country = countries[rnd.nextInt(8)];
 			e.printStackTrace();
 		}
 	}

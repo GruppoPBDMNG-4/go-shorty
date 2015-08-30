@@ -2,6 +2,7 @@ package com.pbdmng.goShorty.statistics;
 
 
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class JsonUrlStatistics extends UrlStatistics{
@@ -28,6 +29,14 @@ public class JsonUrlStatistics extends UrlStatistics{
 			jsonDateStats.addProperty(date, freq));
 	}
 	
+	public String getStats(){
+		JsonArray jArray = new JsonArray();
+		jArray.add(this.jsonBrowserStats);
+		jArray.add(this.jsonCountryStats);
+		jArray.add(this.jsonDateStats);
+		
+		return jArray.toString();
+	}
 	
 	public String getBrowserStats(){
 		return this.jsonBrowserStats.toString();

@@ -28,10 +28,10 @@ public class RedisDAO implements DAO {
 	public RedisDAO(){
 		
 		 try {
-	    	   this.jedis = getIstance();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			 this.jedis = getIstance();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -42,8 +42,9 @@ public class RedisDAO implements DAO {
 		
 		resultCode.setCode( jedis.setnx(shortUrl, longUrl) );
 		
-		// controlliamo se lo short e url che si vogliono inserire sono già presenti nel DB
-		// se si, verrà riutilizzato quel link senza generarne un altro
+		/* If the shortUrl is already present, 
+		 * it checks if its longUrl is the same as the one that has to be inserted. 
+		 * If so it sets the reply code to inserted. */
 		if( resultCode.getCode() == 0)
 			if(longUrl.equals( jedis.get(shortUrl) ))
 				resultCode = ResultCodeDAO.INSERTED;

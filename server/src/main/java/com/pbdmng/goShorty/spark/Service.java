@@ -7,6 +7,7 @@ import com.pbdmng.goShorty.entity.Click;
 import com.pbdmng.goShorty.spark.exceptions.*;
 import com.pbdmng.goShorty.utils.Shortener;
 import com.pbdmng.goShorty.utils.inspector.*;
+import com.pbdmng.goShorty.statistics.*;
 
 public class Service {
 	
@@ -28,12 +29,14 @@ public class Service {
 		ReplyDAO reply; 
 		int attempt = 0;
 		JsonObject jsonRequest = gson.fromJson(requestBody, JsonObject.class);
-		JsonObject jsonResponse = new JsonObject(); 
+		JsonObject jsonResponse = new JsonObject();
 		String longUrl = jsonRequest.get("longUrl").toString().replace("\"", "");
 		String custom = jsonRequest.get("custom").toString().replace("\"", "");
 		
+		if ( !(longUrl.startsWith("https://") || longUrl.startsWith("http://")) ) 
+			longUrl = "http://" + longUrl;
 		
-		if(longUrl.equals("")) throw new EmptyUrlException("Empty url");
+		if (longUrl.equals("")) throw new EmptyUrlException("Empty url");
 		if (domainInspector.isNasty(longUrl)) throw new NastyUrlException("Very nasty url");
 		
 		if (custom.equals("")){
@@ -49,25 +52,43 @@ public class Service {
 		} else {
 			if(wordInspector.isNasty(custom))
 				throw new NastyWordException("Oh that's nasty");
-			
 			reply = dao.insertUrl(custom, longUrl);
 			if(reply.getResultCode().getCode() == ResultCodeDAO.INSERTED.getCode())
 				shortUrl = custom;
 			else 
 				throw new CustomUrlPresentException("Custom url already taken");
 		}
-		jsonResponse.addProperty("shorty", shortUrl);
+		jsonResponse.addProperty("shortUrl", shortUrl);
+		jsonResponse.addProperty("stats", "/rest/stats/:" + shortUrl);
 		
 		return jsonResponse.toString();
 	}
 	
-	public String redirectTo(String shortUrl, Click click){
-		return null;
+	
+	public String redirectTo(String shortUrl, String IP, String userAgent) throws DeadLinkException{
+		ReplyDAO reply;
+		String longUrl;
+		Click click = new Click(IP, userAgent);
+		
+		reply = dao.fetchLongUrl(shortUrl);
+		if ( reply.getResultCode().getCode() == ResultCodeDAO.OK.getCode() && !(reply.getLongUrl().equals(""))){
+			dao.insertClick(shortUrl, click);
+			longUrl = reply.getLongUrl();
+		} else 
+			throw new DeadLinkException("404");
+		
+		return longUrl;
 	}
 	
-	public String urlStatistics(String shortUrl){
-		return null;
+	
+	public String urlStatistics(String shortUrl) throws NonexistentShortUrlException{
+		
+		if( !(dao.isPresent(shortUrl)) ) 
+			throw new NonexistentShortUrlException("Short url not present");
+		JsonUrlStatistics jStats = new JsonUrlStatistics(shortUrl);
+		
+		return jStats.getStats();
 	}
 	
-
+	
 }

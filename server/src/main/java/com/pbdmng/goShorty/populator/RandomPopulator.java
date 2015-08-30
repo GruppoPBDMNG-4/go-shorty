@@ -2,7 +2,6 @@ package com.pbdmng.goShorty.populator;
 
 import com.pbdmng.goShorty.entity.Click;
 import com.pbdmng.goShorty.utils.Shortener;
-import com.pbdmng.goShorty.utils.ipGeoLocation.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

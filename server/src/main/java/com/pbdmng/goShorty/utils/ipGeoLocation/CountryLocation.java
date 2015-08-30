@@ -14,7 +14,8 @@ public class CountryLocation {
 	
 	private DatabaseReader reader;
 	private File database ;
-	private String relativePath = "/src/main/java/com/pbdmng/goShorty/utils/ipGeoLocation/GeoLite2-Country.mmdb";
+	private String relativePath = 
+			"/src/main/java/com/pbdmng/goShorty/utils/ipGeoLocation/GeoLite2-Country.mmdb";
 	
 	public CountryLocation() throws IOException{
 		
@@ -31,17 +32,5 @@ public class CountryLocation {
 		
 		return country.getIsoCode();
 	}
-	
-	
-	/*public static void main(String[] args) {
-		try {
-			CountryLocation gino = new CountryLocation();
-			System.out.println(gino.getCountry("15.40.7.243"));
-			
-			
-		} catch (Exception e){
-			
-		}
-	}*/
 
 }
