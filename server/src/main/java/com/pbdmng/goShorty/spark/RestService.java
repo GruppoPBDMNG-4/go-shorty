@@ -72,7 +72,7 @@ public class RestService {
 	
 	private static void setUpRedirectRoute(){
 		
-		get(REST_API + REDIRECT, (request, response) -> {
+		get(REDIRECT, (request, response) -> {
 			String longUrl;
 			
 			try{

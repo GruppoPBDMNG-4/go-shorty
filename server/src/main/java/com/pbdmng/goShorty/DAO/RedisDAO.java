@@ -4,7 +4,6 @@ import com.pbdmng.goShorty.entity.Click;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.io.UnsupportedEncodingException;
 
 import com.google.gson.Gson;
@@ -143,14 +142,15 @@ public class RedisDAO implements DAO {
 	
 	
 	
-	public ReplyDAO updateUrl(){
+	public ReplyDAO updateUrl(String key){
 		ReplyDAO ob = new ReplyDAO();
 		return ob;
 	}
 	
-	public ReplyDAO deleteUrl(){
-		ReplyDAO ob = new ReplyDAO();
-		return ob;
+	public ReplyDAO deleteUrl(String key){
+		ReplyDAO reply = new ReplyDAO();
+		jedis.del(key);
+		return reply;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.pbdmng.goShorty.spark;
 
+import java.text.Normalizer;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.pbdmng.goShorty.DAO.*;
@@ -30,7 +32,7 @@ public class Service {
 		int attempt = 0;
 		JsonObject jsonRequest = gson.fromJson(requestBody, JsonObject.class);
 		JsonObject jsonResponse = new JsonObject();
-		String longUrl = jsonRequest.get("longUrl").toString().replace("\"", "");
+		String longUrl = jsonRequest.get("longUrl").toString().replaceAll("[^0-9.a-zA-Z-$%&+,/;:=?@#~_]", "");
 		String custom = jsonRequest.get("custom").toString().replace("\"", "");
 		
 		if ( !(longUrl.startsWith("https://") || longUrl.startsWith("http://")) ) 
@@ -50,11 +52,14 @@ public class Service {
 			if(attempt == MAX_ATTEMPTS) throw new TooManyAttemptsException("Server went bananas");
 			
 		} else {
-			if(wordInspector.isNasty(custom))
+			String customUrlSafe = Normalizer.normalize(custom, Normalizer.Form.NFD).
+								   replaceAll("[^0-9.a-zA-Z-_]", "");
+			
+			if(wordInspector.isNasty(customUrlSafe))
 				throw new NastyWordException("Oh that's nasty");
-			reply = dao.insertUrl(custom, longUrl);
+			reply = dao.insertUrl(customUrlSafe, longUrl);
 			if(reply.getResultCode().getCode() == ResultCodeDAO.INSERTED.getCode())
-				shortUrl = custom;
+				shortUrl = customUrlSafe;
 			else 
 				throw new CustomUrlPresentException("Custom url already taken");
 		}
@@ -89,6 +94,5 @@ public class Service {
 		
 		return jStats.getStats();
 	}
-	
 	
 }

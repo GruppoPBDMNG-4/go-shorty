@@ -54,7 +54,9 @@ public class Click {
 		}catch(IOException e){
 			e.printStackTrace();
 		}catch(GeoIp2Exception e){
-			this.country = "Valhalla";
+			Random rnd = new Random();
+			String[] countries = {"IT", "DE", "US", "JP", "FR", "GB", "IN", "ES", "MX"};
+			this.country = countries[rnd.nextInt(8)];
 			e.printStackTrace();
 		}
 	}

@@ -16,7 +16,8 @@ import com.google.gson.JsonElement;
 
 public class RandomPopulator {
 	
-	private final static String RELATIVE_PATH = "/src/main/java/com/pbdmng/goShorty/populator/urls.json";
+	private final static String RELATIVE_PATH = 
+			"/src/main/java/com/pbdmng/goShorty/populator/urls.json";
 	private final static int MAX_ATTEMPTS = 20;
 	private final static String URLS = "urls";
 	private static JsonObject urlJson;		
@@ -31,8 +32,8 @@ public class RandomPopulator {
 		Gson gson = new Gson();
 		DAO dao = new RedisDAO();
 		
-		if( dao.isPresent("randomePopulated") ) return;
-		dao.insertUrl("randomePopulated", "yup");
+		if( dao.isPresent("randomPopulated") ) return;
+		dao.insertUrl("randomPopulated", "http://localhost:4567");
 		
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(

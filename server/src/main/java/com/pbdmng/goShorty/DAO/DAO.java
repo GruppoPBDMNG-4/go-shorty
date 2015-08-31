@@ -16,9 +16,9 @@ public interface DAO {
 	public ReplyDAO fetchKeys(String regEx);
 	
 	// update
-	public ReplyDAO updateUrl();
+	public ReplyDAO updateUrl(String key);
 	
 	// delete
-	public ReplyDAO deleteUrl();
+	public ReplyDAO deleteUrl(String key);
 	
 }

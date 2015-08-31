@@ -1,8 +1,5 @@
 package com.pbdmng.goShorty.statistics;
 
-
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class JsonUrlStatistics extends UrlStatistics{
@@ -30,26 +27,25 @@ public class JsonUrlStatistics extends UrlStatistics{
 	}
 	
 	public String getStats(){
-		JsonArray jArray = new JsonArray();
-		jArray.add(this.jsonBrowserStats);
-		jArray.add(this.jsonCountryStats);
-		jArray.add(this.jsonDateStats);
+		JsonObject jsonStats = new JsonObject();
+		jsonStats.add("browserStats", this.jsonBrowserStats);
+		jsonStats.add("countryStats", this.jsonCountryStats);
+		jsonStats.add("dateStats", this.jsonDateStats);
 		
-		return jArray.toString();
+		return jsonStats.toString();
 	}
+	
 	
 	public String getBrowserStats(){
 		return this.jsonBrowserStats.toString();
 	}
 	
-	
 	public String getCountryStats(){
 		return this.jsonCountryStats.toString();
 	}
 	
-	
 	public String getDateStats(){
 		return this.jsonDateStats.toString();
 	}
-
+	
 }

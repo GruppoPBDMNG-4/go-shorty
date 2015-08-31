@@ -1,10 +1,11 @@
 package com.pbdmng.goShorty.utils.inspector;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import static java.lang.System.err;
 
 import com.google.gson.JsonObject;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -26,14 +27,16 @@ public class DomainInspector {
 					System.getProperty("user.dir") + RELATIVE_PATH));
 			domainsJson = gson.fromJson(br, JsonObject.class);
 		}
-		catch (Exception e){
-			e.printStackTrace();;
+		catch (FileNotFoundException e){
+			err.println("File not found");
+			e.printStackTrace();
 		}
 	}
 	
 	
 	public boolean isNasty(String domain){
 		
+		String aNastyDomain;
 		boolean nasty = false;
 		JsonArray jArray = domainsJson.getAsJsonArray(DOMAINS);
 		
@@ -42,10 +45,9 @@ public class DomainInspector {
 		else if(domain.startsWith("https://"))
 			domain.replace("https://", "");
 		
-		String check;
 		for (JsonElement j : jArray){
-			check = j.toString().replace("\"", "");
-			if(domain.equalsIgnoreCase(check)) {
+			aNastyDomain = j.toString().replace("\"", "");
+			if(domain.contains(aNastyDomain)) {
 				nasty = true; 
 				break;
 			}
@@ -53,12 +55,5 @@ public class DomainInspector {
 			
 		return nasty;
 	}
-	
-	/*public static void main(String[] args) {
-		
-		DomainInspector dc = new DomainInspector();
-		System.out.println(dc.isNasty("www.1day.su"));
-		
-	}*/
 
 }
