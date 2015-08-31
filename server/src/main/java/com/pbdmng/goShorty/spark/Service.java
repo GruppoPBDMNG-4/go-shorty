@@ -34,14 +34,16 @@ public class Service {
 		JsonObject jsonResponse = new JsonObject();
 		String longUrl = jsonRequest.get("longUrl").toString().replaceAll("[^0-9.a-zA-Z-$%&+,/;:=?@#~_]", "");
 		String custom = jsonRequest.get("custom").toString().replace("\"", "");
+		String customUrlSafe = Normalizer.normalize(custom, Normalizer.Form.NFD).
+				   						  replaceAll("[^0-9.a-zA-Z-_]", "");
 		
+		if (longUrl.equals("")) throw new EmptyUrlException("Empty url");
 		if ( !(longUrl.startsWith("https://") || longUrl.startsWith("http://")) ) 
 			longUrl = "http://" + longUrl;
 		
-		if (longUrl.equals("")) throw new EmptyUrlException("Empty url");
 		if (domainInspector.isNasty(longUrl)) throw new NastyUrlException("Very nasty url");
 		
-		if (custom.equals("")){
+		if (customUrlSafe.equals("")){
 			do{
 				shortUrl = Shortener.shorten(longUrl);
 				reply = dao.insertUrl(shortUrl, longUrl);
@@ -50,14 +52,13 @@ public class Service {
 					&& MAX_ATTEMPTS > attempt);
 			
 			if(attempt == MAX_ATTEMPTS) throw new TooManyAttemptsException("Server went bananas");
+			else Shortener.setLastUrl("");
 			
 		} else {
-			String customUrlSafe = Normalizer.normalize(custom, Normalizer.Form.NFD).
-								   replaceAll("[^0-9.a-zA-Z-_]", "");
 			
-			if(wordInspector.isNasty(customUrlSafe))
-				throw new NastyWordException("Oh that's nasty");
+			if(wordInspector.isNasty(customUrlSafe)) throw new NastyWordException("Oh that's nasty");
 			reply = dao.insertUrl(customUrlSafe, longUrl);
+			
 			if(reply.getResultCode().getCode() == ResultCodeDAO.INSERTED.getCode())
 				shortUrl = customUrlSafe;
 			else 
@@ -79,8 +80,7 @@ public class Service {
 		if ( reply.getResultCode().getCode() == ResultCodeDAO.OK.getCode() && !(reply.getLongUrl().equals(""))){
 			dao.insertClick(shortUrl, click);
 			longUrl = reply.getLongUrl();
-		} else 
-			throw new DeadLinkException("404");
+		} else throw new DeadLinkException("404");
 		
 		return longUrl;
 	}

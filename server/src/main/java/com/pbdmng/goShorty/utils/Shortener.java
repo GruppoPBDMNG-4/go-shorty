@@ -86,5 +86,8 @@ public class Shortener {
 		return shortUrl;
 	}
 	
+	public static void setLastUrl(String url){
+		lastUrl = url;
+	}
 	
 }
