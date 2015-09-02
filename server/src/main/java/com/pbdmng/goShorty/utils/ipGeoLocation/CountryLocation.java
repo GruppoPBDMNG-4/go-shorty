@@ -19,7 +19,7 @@ public class CountryLocation {
 	
 	public CountryLocation() throws IOException{
 		
-		database = new File(System.getProperty("user.dir") + relativePath);
+		database = new File(System.getProperty("user.dir").replace("/target", "") + relativePath);
 		reader = new DatabaseReader.Builder(database).build();
 		
 	}

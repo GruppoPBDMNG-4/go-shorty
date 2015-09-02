@@ -11,29 +11,37 @@ import com.google.gson.Gson;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+
 /**
- * 
  * @author paolobi
- *
+ * 
+ * DAO implementation with Jedis as a Redis client
  */
-
-
 public class RedisDAO implements DAO {
 	
 	private final static String CLICK_LIST = ":clicks";
 	private static JedisPool jPool;
 	private Jedis jedis;
 	
+	
 	public RedisDAO(){
-		
-		 try {
+		try {
 			 this.jedis = getIstance();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	
+	/**
+	 * Inserts a Redis string into the DB
+	 * If the shortUrl is already present, 
+	 * it checks if its longUrl is the same as the one that has to be inserted. 
+	 * If so it sets the reply code to inserted.
+	 * 
+	 * @param shortUrl 	key
+	 * @param longUrl 	value
+	 * @return a ReplyDAO object with the result code
+	 */
 	public ReplyDAO insertUrl(String shortUrl, String longUrl){
 		
 		ReplyDAO reply = new ReplyDAO();
@@ -41,9 +49,6 @@ public class RedisDAO implements DAO {
 		
 		resultCode.setCode( jedis.setnx(shortUrl, longUrl) );
 		
-		/* If the shortUrl is already present, 
-		 * it checks if its longUrl is the same as the one that has to be inserted. 
-		 * If so it sets the reply code to inserted. */
 		if( resultCode.getCode() == 0)
 			if(longUrl.equals( jedis.get(shortUrl) ))
 				resultCode = ResultCodeDAO.INSERTED;
@@ -52,6 +57,14 @@ public class RedisDAO implements DAO {
 		return reply;
 	}
 	
+	/**
+	 * Inserts a Redis list into the DB using the pattern <shortUrl>:clicks. 
+	 * 
+	 * @param shortUrl  needed to access to the list
+	 * @param click 	It contains data retrieved from a user's click 
+	 * 		  			such as the IP, the country, the browser and the date.
+	 * @return a ReplyDAO object with the result code
+	 */
 	public ReplyDAO insertClick(String shortUrl, Click click) {
 		
 		ReplyDAO reply = new ReplyDAO();
@@ -70,11 +83,15 @@ public class RedisDAO implements DAO {
 		return reply;
 	}
 	
-	
+	/**
+	 * Checks if a shortUrl(key) is present in the DB
+	 * 
+	 * @param shortUrl 	key that has to be checked	
+	 * @return 			true if is present, false otherwise
+	 */
 	public boolean isPresent(String shortUrl){
 		
 		boolean present = true;
-		
 		try{
 			present = jedis.exists(shortUrl.getBytes("UTF-8"));
 		} catch(UnsupportedEncodingException e) {
@@ -85,11 +102,17 @@ public class RedisDAO implements DAO {
 	}
 	
 	
+	/**
+	 * Fetches a value from a given key
+	 * 
+	 * @param shortUrl 	key
+	 * #return 			an object with the result code of the operation 
+	 * 					and the longUrl(value) fetched 
+	 */
 	public ReplyDAO fetchLongUrl(String shortUrl){
 		
 		ReplyDAO reply = new ReplyDAO();
 		ResultCodeDAO resultCode = ResultCodeDAO.NOT_PRESENT;
-		
 		if (isPresent(shortUrl)){
 			reply.setLongUrl( jedis.get(shortUrl) );
 			resultCode = ResultCodeDAO.OK;
@@ -99,11 +122,18 @@ public class RedisDAO implements DAO {
 		return reply;
 	}
 	
+	/**
+	 * Fetches a list of clicks from a given key
+	 * 
+	 * @param shortUrl	the shortUrl we want to fetch the clicks
+	 * @param from		starting point
+	 * @param to		ending point
+	 * @return			an object with the result code and the click list
+	 */
 	public ReplyDAO fetchClicks(String shortUrl, int from, int to) {
 		
 		ReplyDAO reply = new ReplyDAO();
 		ResultCodeDAO resultCode = ResultCodeDAO.NOT_PRESENT;
-		
 		String shortUrlClicks = shortUrl + CLICK_LIST;
 		
 		if( isPresent(shortUrlClicks) ){
@@ -125,6 +155,12 @@ public class RedisDAO implements DAO {
 		return reply;
 	}
 	
+	/**
+	 * Fetches keys stored into the DB that matches a regular expression
+	 * 
+	 * @param regEx		regular expression
+	 * @return			an object with the result code and the key set
+	 */
 	public ReplyDAO fetchKeys(String regEx) {
 		
 		ReplyDAO reply = new ReplyDAO();
@@ -140,19 +176,20 @@ public class RedisDAO implements DAO {
 		return reply;
 	}
 	
-	
-	
 	public ReplyDAO updateUrl(String key){
 		ReplyDAO ob = new ReplyDAO();
 		return ob;
 	}
 	
+	/**
+	 * Used only for testing
+	 * 
+	 */
 	public ReplyDAO deleteUrl(String key){
 		ReplyDAO reply = new ReplyDAO();
 		jedis.del(key);
 		return reply;
 	}
-	
 	
 	private static Jedis getIstance() throws Exception{
 		if (jPool == null) {
@@ -160,11 +197,5 @@ public class RedisDAO implements DAO {
 		}
 		return jPool.getResource();
 	} 
-	public static void main(String[] args){
-		RedisDAO jedis = new RedisDAO();
-		ReplyDAO r = new ReplyDAO();
-		r = jedis.insertUrl("bababababa", "pippopippo");
-		System.out.println(r.getResultCode().getCode());
-	}
 
 }

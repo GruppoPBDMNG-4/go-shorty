@@ -22,7 +22,7 @@ public class WordInspector {
 		Gson gson = new Gson();
 		
 		try{
-			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + RELATIVE_PATH));
+			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir").replace("/target", "") + RELATIVE_PATH));
 			badJson = gson.fromJson(br, JsonObject.class);
 		}
 		catch (FileNotFoundException e){

@@ -7,11 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Contains information returned by an access on the DB.
+ * @author paolobi
+ */
 
 public class ReplyDAO {
-	
-	
-		//final static String JEDIS_NIL_STRING = "(nil)";
+		
 		private String longUrl;
 		private Set<String> keyset = new HashSet<String>();
 		private List<Click> clickList = new ArrayList<Click>();

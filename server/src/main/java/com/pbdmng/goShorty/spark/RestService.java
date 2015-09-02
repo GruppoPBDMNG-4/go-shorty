@@ -73,8 +73,8 @@ public class RestService {
 	private static void setUpRedirectRoute(){
 		
 		get(REDIRECT, (request, response) -> {
-			String longUrl;
 			
+			String longUrl;
 			try{
 				longUrl = service.redirectTo(request.params(":shorty"), request.ip(), request.userAgent());
 			}catch(DeadLinkException e){

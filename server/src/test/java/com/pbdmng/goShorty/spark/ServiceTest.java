@@ -1,8 +1,6 @@
 package com.pbdmng.goShorty.spark;
 
-import com.pbdmng.goShorty.DAO.DAO;
-import com.pbdmng.goShorty.DAO.RedisDAO;
-
+import com.pbdmng.goShorty.DAO.*;
 import junit.framework.TestCase;
 
 
@@ -28,7 +26,6 @@ public class ServiceTest extends TestCase {
 								  "{\"shortUrl\":\"X5uZ3o0a\",\"stats\":\"/rest/stats/:X5uZ3o0a\"}",
 								  "{\"shortUrl\":\"dockerhub\",\"stats\":\"/rest/stats/:dockerhub\"}"
 								};
-	// "{'longUrl':'', 'custom':''}"  "{\"error\":\"URL not provided\"}"
 	
 	private String[] from = {"SFrY3o0a","2l4c3o0a","angular","X5uZ3o0a","dockerhub"};
 	
@@ -60,17 +57,14 @@ public class ServiceTest extends TestCase {
 	
 	
 	
-	public void testShortenUrl(){
+	public void testShortenUrl()throws Exception{
 		for(int i = 0; i < response.length; i++)
 			assertEquals("Test failed", service.shortenUrl(requestBody[i]), response[i]);
 	}
 	
-	public void testRedirectTo(){
-		for(int i = 0; i < response.length; i++){
+	public void testRedirectTo()throws Exception{
+		for(int i = 0; i < response.length; i++)
 			assertEquals("Test Failed", service.redirectTo(from[i], "151.25.78.65", "Chrome/"), to[i]);
-		}
 	}
-	
-	
 	
 }

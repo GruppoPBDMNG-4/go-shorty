@@ -24,7 +24,7 @@ public class DomainInspector {
 		
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(
-					System.getProperty("user.dir") + RELATIVE_PATH));
+					System.getProperty("user.dir").replace("/target", "") + RELATIVE_PATH));
 			domainsJson = gson.fromJson(br, JsonObject.class);
 		}
 		catch (FileNotFoundException e){

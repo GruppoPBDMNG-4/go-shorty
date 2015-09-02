@@ -14,6 +14,13 @@ import com.google.gson.JsonObject;
 import com.pbdmng.goShorty.DAO.*;
 import com.google.gson.JsonElement;
 
+
+/**
+ * Populate the DB the first time it is executed.
+ * Fetches URLs from a JSON file and generates
+ * random IP, browser and date.
+ * @author chris
+ */
 public class RandomPopulator {
 	
 	private final static String RELATIVE_PATH = 
@@ -37,7 +44,7 @@ public class RandomPopulator {
 		
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(
-					System.getProperty("user.dir") + RELATIVE_PATH));
+					System.getProperty("user.dir").replace("/target", "") + RELATIVE_PATH));
 			urlJson = gson.fromJson(br, JsonObject.class);
 		}
 		catch (Exception e){

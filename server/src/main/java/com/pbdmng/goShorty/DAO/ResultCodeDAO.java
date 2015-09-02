@@ -1,7 +1,11 @@
 package com.pbdmng.goShorty.DAO;
 
+/**
+ * @author paolobi
+ * Possible return values
+ */
 public enum ResultCodeDAO {
-
+	
 	NOT_PRESENT(-2),
 	NOT_INSERTED (-1),
 	DUPLICATE(0),
