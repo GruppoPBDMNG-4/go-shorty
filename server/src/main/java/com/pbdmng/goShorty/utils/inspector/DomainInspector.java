@@ -10,7 +10,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-
+/**
+ * Checks if a domain is a nasty domain, 
+ * by searching in a JSON file with nasty domains.
+ * 
+ * @author paolobi
+ */
 public class DomainInspector {
 
 	private final static String RELATIVE_PATH = 

@@ -16,7 +16,7 @@ import com.google.gson.JsonElement;
 
 
 /**
- * Populate the DB the first time it is executed.
+ * It populates the DB the first time it is executed.
  * Fetches URLs from a JSON file and generates
  * random IP, browser and date.
  * @author chris

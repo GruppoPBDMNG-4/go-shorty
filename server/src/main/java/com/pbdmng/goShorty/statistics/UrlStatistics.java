@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Generates statistics from a given shortUrl
+ * and creates a Map with the frequency of each element.
+ * 
+ * @author chris
+ */
 public class UrlStatistics {
 	
 	String shortUrl;

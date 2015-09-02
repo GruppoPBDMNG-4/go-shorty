@@ -1,8 +1,8 @@
 package com.pbdmng.goShorty.DAO;
 
 /**
- * @author paolobi
  * Possible return values
+ * @author paolobi
  */
 public enum ResultCodeDAO {
 	

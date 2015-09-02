@@ -2,6 +2,11 @@ package com.pbdmng.goShorty.statistics;
 
 import com.google.gson.JsonObject;
 
+/**
+ * Provides statistics in as JSON formatted string
+ * 
+ * @author chris
+ */
 public class JsonUrlStatistics extends UrlStatistics{
 	
 	private JsonObject jsonBrowserStats = new JsonObject();

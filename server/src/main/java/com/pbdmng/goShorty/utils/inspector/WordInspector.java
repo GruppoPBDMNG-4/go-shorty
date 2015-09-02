@@ -11,6 +11,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+/**
+ * Checks if a word is a nasty word, 
+ * by searching in a JSON file with nasty words.
+ * 
+ * @author paolobi
+ */
 public class WordInspector {
 	
 	JsonObject badJson;

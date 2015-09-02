@@ -11,11 +11,15 @@ import static spark.Spark.post;
 import static spark.Spark.options;
 import static spark.Spark.before;
 
-
+/**
+ * It provides shortening, redirection and statistical services
+ * as RESTful web services.
+ * @author chris
+ */
 public class RestService {
 	
 	private static Service service = new Service(new RedisDAO());
-	private static final String REST_API = "/rest";
+	private static final String REST = "/rest";
 	private static final String CREATE_SHORTY = "/go-shorty";
 	private static final String REDIRECT = "/:shorty";
 	private static final String READ_STATS = "/stats/:shorty";
@@ -29,9 +33,15 @@ public class RestService {
     	setUpOptions();
 	}
 	
+	/**
+	 * Route listening to "/rest/go-shorty" endpoint.
+	 * Creates a new shortUrl or gives an error message
+	 * Uses the POST method as a create operation
+	 * 
+	 */
 	private static void setUpShorteningRoute(){
 		
-		post(REST_API + CREATE_SHORTY, (request, response) ->{
+		post(REST + CREATE_SHORTY, (request, response) ->{
 			String jsonResponse = null;
 			JsonObject jsonError = new JsonObject();
 			
@@ -70,6 +80,12 @@ public class RestService {
 		
 	}
 	
+	/**
+	 * Route listening to "/rest/" endpoint.
+	 * Redirects to the respective longUrl if it exists
+	 * Uses the GET method as a read operation 
+	 * 
+	 */
 	private static void setUpRedirectRoute(){
 		
 		get(REDIRECT, (request, response) -> {
@@ -88,9 +104,15 @@ public class RestService {
 		
 	}
 	
+	/**
+	 * Route listening to "/:shorty/stats/:shorty" endpoint.
+	 * Gets the stats 
+	 * Uses the GET method as a read operation
+	 * 
+	 */
 	private static void setUpStatsRoute(){
 		
-		get(REST_API + READ_STATS, (request, response) -> {
+		get(REST  + READ_STATS, (request, response) -> {
 			String jsonResponse;
 			JsonObject jsonError = new JsonObject();
 			try{
@@ -107,7 +129,7 @@ public class RestService {
 	}
 	
 	private static void setPageNotFound() {
-		get(REST_API + "/404.html", (request, response) -> {
+		get(REST  + "/404.html", (request, response) -> {
 			response.redirect("/app/404.html");
 			return null;
 		});

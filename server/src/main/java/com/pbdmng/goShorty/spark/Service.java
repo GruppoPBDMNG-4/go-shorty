@@ -11,17 +11,26 @@ import com.pbdmng.goShorty.utils.Shortener;
 import com.pbdmng.goShorty.utils.inspector.*;
 import com.pbdmng.goShorty.statistics.*;
 
+/**
+ * It provides shortening, redirection and statistical services.
+ * @author chris
+ */
 public class Service {
 	
 	DAO dao;
-	
 	private final static int MAX_ATTEMPTS = 30;
 	
 	public Service(DAO dao){
 		this.dao = dao;
 	}
 	
-	
+	/**
+	 * Shortens the given string. It replaces all the characters 
+	 * that are not URL safe. If something goes wrong it throws 
+	 * specified exceptions.
+	 * @param requestBody 	body of the http request	
+	 * @return				the shortened string
+	 */
 	public String shortenUrl(String requestBody) {
 		
 		DomainInspector domainInspector = new DomainInspector();
@@ -70,7 +79,17 @@ public class Service {
 		return jsonResponse.toString();
 	}
 	
-	
+	/**
+	 * Fetches a longUrl from a given shortUrl. 
+	 * It collects information about the user 
+	 * and it stores them in the DB
+	 * 
+	 * @param shortUrl 	necessary to get the longUrl
+	 * @param IP		user's IP
+	 * @param userAgent user's userAgent
+	 * @return			longUrl
+	 * @throws DeadLinkException if the shortUrl is not present
+	 */
 	public String redirectTo(String shortUrl, String IP, String userAgent) throws DeadLinkException{
 		ReplyDAO reply;
 		String longUrl;
@@ -85,7 +104,13 @@ public class Service {
 		return longUrl;
 	}
 	
-	
+	/**
+	 * Fetches statistics about a shortUrl
+	 * 
+	 * @param shortUrl	shortUrl
+	 * @return			JSON formatted string
+	 * @throws NonexistentShortUrlException if the shortUrl is not present
+	 */
 	public String urlStatistics(String shortUrl) throws NonexistentShortUrlException{
 		
 		if( !(dao.isPresent(shortUrl)) ) 

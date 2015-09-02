@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 /**
- * Click entity. Contains data retrieved form a user's click.
+ * Click entity. It contains data retrieved from a user's click.
  * Keeps information about the date, the browser, the country and the IP.
  * @author chris
  */
@@ -22,7 +22,7 @@ public class Click {
 	
 	/**
 	 * Click constructor. It gets the browser from the userAgent,
-	 * and the country from the IP. If the IP is not in the database,
+	 * and the country from the IP. If the IP is not in the DB,
 	 * it sets a random country.
 	 * 
 	 * @param IP

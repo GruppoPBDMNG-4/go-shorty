@@ -13,9 +13,8 @@ import redis.clients.jedis.JedisPool;
 
 
 /**
- * @author paolobi
- * 
  * DAO implementation with Jedis as a Redis client
+ * @author paolobi 
  */
 public class RedisDAO implements DAO {
 	
@@ -33,7 +32,7 @@ public class RedisDAO implements DAO {
 	}
 	
 	/**
-	 * Inserts a Redis string into the DB
+	 * Inserts a Redis string into DB
 	 * If the shortUrl is already present, 
 	 * it checks if its longUrl is the same as the one that has to be inserted. 
 	 * If so it sets the reply code to inserted.
@@ -58,7 +57,7 @@ public class RedisDAO implements DAO {
 	}
 	
 	/**
-	 * Inserts a Redis list into the DB using the pattern <shortUrl>:clicks. 
+	 * Inserts a Redis list into DB using the pattern <shortUrl>:clicks. 
 	 * 
 	 * @param shortUrl  needed to access to the list
 	 * @param click 	It contains data retrieved from a user's click 
@@ -156,7 +155,7 @@ public class RedisDAO implements DAO {
 	}
 	
 	/**
-	 * Fetches keys stored into the DB that matches a regular expression
+	 * Fetches keys stored into DB that matches a regular expression
 	 * 
 	 * @param regEx		regular expression
 	 * @return			an object with the result code and the key set

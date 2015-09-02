@@ -9,7 +9,12 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
 
-
+/**
+ * Resolve the country checking the IP address.
+ * If the IP is not in the DB throws an Exception
+ * 
+ * @author chris
+ */
 public class CountryLocation {
 	
 	private DatabaseReader reader;

@@ -6,7 +6,16 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.RandomStringUtils;
 import static java.lang.System.out;
 
-
+/**
+ * Provides an eight letter string from a given URL
+ * it converts the string in base64 format and takes 
+ * from there characters with a certain gap. If it is 
+ * called again with the same longUrl it change the gap
+ * for a maximum of eight times. After that, it takes 
+ * random letters.
+ *   
+ * @author chris
+ */
 public class Shortener {
 	
 	private static String lastUrl = "";
