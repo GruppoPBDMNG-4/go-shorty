@@ -10,8 +10,8 @@ import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.record.Country;
 
 /**
- * Resolve the country checking the IP address.
- * If the IP is not in the DB throws an Exception
+ * Finds the country by checking the IP address.
+ * If the IP is not in the DB it throws an Exception
  * 
  * @author chris
  */

@@ -3,7 +3,7 @@ package com.pbdmng.goShorty.statistics;
 import com.google.gson.JsonObject;
 
 /**
- * Provides statistics in as JSON formatted string
+ * Provides statistics as JSON formatted string
  * 
  * @author chris
  */

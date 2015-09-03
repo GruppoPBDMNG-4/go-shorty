@@ -7,12 +7,12 @@ import org.apache.commons.lang.RandomStringUtils;
 import static java.lang.System.out;
 
 /**
- * Provides an eight letter string from a given URL
- * it converts the string in base64 format and takes 
- * from there characters with a certain gap. If it is 
- * called again with the same longUrl it change the gap
- * for a maximum of eight times. After that, it takes 
- * random letters.
+ * Provides an eight letter string from a given URL.
+ * It converts the string into base64 format and from 
+ * there takes characters at regular intervals. If 
+ * it is called again with the same longUrl it changes 
+ * the interval for a maximum of eight times. After that, 
+ * it takes random characters.
  *   
  * @author chris
  */

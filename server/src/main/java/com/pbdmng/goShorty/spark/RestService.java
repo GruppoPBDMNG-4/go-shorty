@@ -14,6 +14,7 @@ import static spark.Spark.before;
 /**
  * It provides shortening, redirection and statistical services
  * as RESTful web services.
+ * 
  * @author chris
  */
 public class RestService {
@@ -21,21 +22,23 @@ public class RestService {
 	private static Service service = new Service(new RedisDAO());
 	private static final String REST = "/rest";
 	private static final String CREATE_SHORTY = "/go-shorty";
-	private static final String REDIRECT = "/:shorty";
 	private static final String READ_STATS = "/stats/:shorty";
+	private static final String REDIRECT = "/:shorty";
+	private static final String PREVIEW = "/:shorty/preview";
 	private static final String ERROR = "error";
 	
 	public static void setUpRoutes(){
 		setUpShorteningRoute();
 		setUpRedirectRoute(); 
 		setUpStatsRoute();
+		setUpPreviewRoute();
     	setPageNotFound();
     	setUpOptions();
 	}
 	
 	/**
 	 * Route listening to "/rest/go-shorty" endpoint.
-	 * Creates a new shortUrl or gives an error message
+	 * Creates a new shortUrl or gives an error message.
 	 * Uses the POST method as a create operation
 	 * 
 	 */
@@ -81,15 +84,14 @@ public class RestService {
 	}
 	
 	/**
-	 * Route listening to "/rest/" endpoint.
-	 * Redirects to the respective longUrl if it exists
+	 * Route listening to "/:go-shorty" endpoint.
+	 * Redirects to the respective longUrl if the shortUrl exists
 	 * Uses the GET method as a read operation 
 	 * 
 	 */
 	private static void setUpRedirectRoute(){
 		
 		get(REDIRECT, (request, response) -> {
-			
 			String longUrl;
 			try{
 				longUrl = service.redirectTo(request.params(":shorty"), request.ip(), request.userAgent());
@@ -105,7 +107,32 @@ public class RestService {
 	}
 	
 	/**
-	 * Route listening to "/:shorty/stats/:shorty" endpoint.
+	 * Route listening to "/:shorty/preview" endpoint.
+	 * Returns the longUrl for preview purposes.
+	 * Uses the GET method as a read operation
+	 * 
+	 */
+	private static void setUpPreviewRoute(){
+		
+		get(PREVIEW, (request, response) -> {
+			String longUrl;
+			try{
+				longUrl = service.preview(request.params(":shorty"));
+			}catch(DeadLinkException e){
+				err.println(e.getMessage());
+				JsonObject jsonErr = new JsonObject(); 
+				jsonErr.addProperty("longUrl", "This URL does not exists");
+				longUrl = jsonErr.toString();
+			}
+			
+			return longUrl;
+		});
+		
+	}
+	
+	
+	/**
+	 * Route listening to "/rest/stats/:shorty" endpoint.
 	 * Gets the stats 
 	 * Uses the GET method as a read operation
 	 * 

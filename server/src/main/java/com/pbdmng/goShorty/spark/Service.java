@@ -13,6 +13,7 @@ import com.pbdmng.goShorty.statistics.*;
 
 /**
  * It provides shortening, redirection and statistical services.
+ * 
  * @author chris
  */
 public class Service {
@@ -28,6 +29,7 @@ public class Service {
 	 * Shortens the given string. It replaces all the characters 
 	 * that are not URL safe. If something goes wrong it throws 
 	 * specified exceptions.
+	 * 
 	 * @param requestBody 	body of the http request	
 	 * @return				the shortened string
 	 */
@@ -82,7 +84,7 @@ public class Service {
 	/**
 	 * Fetches a longUrl from a given shortUrl. 
 	 * It collects information about the user 
-	 * and it stores them in the DB
+	 * and stores it in the DB
 	 * 
 	 * @param shortUrl 	necessary to get the longUrl
 	 * @param IP		user's IP
@@ -105,7 +107,29 @@ public class Service {
 	}
 	
 	/**
-	 * Fetches statistics about a shortUrl
+	 * Fetches a longUrl from a given shortUrl. 
+	 * 
+	 * @param shortUrl 	necessary to get the longUrl
+	 * @return			its longUrl
+	 * @throws DeadLinkException if the shortUrl is not present
+	 */
+	public String preview(String shortUrl) throws DeadLinkException{
+		ReplyDAO reply;
+		String longUrl;
+		JsonObject jsonLongUrl = new JsonObject();
+		
+		reply = dao.fetchLongUrl(shortUrl);
+		if ( reply.getResultCode().getCode() == ResultCodeDAO.OK.getCode() && !(reply.getLongUrl().equals(""))){
+			longUrl = reply.getLongUrl();
+		} else throw new DeadLinkException("404");
+		
+		
+		jsonLongUrl.addProperty("longUrl", longUrl);
+		return jsonLongUrl.toString();
+	}
+	
+	/**
+	 * Gets statistics about a shortUrl
 	 * 
 	 * @param shortUrl	shortUrl
 	 * @return			JSON formatted string

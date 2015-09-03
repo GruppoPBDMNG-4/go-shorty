@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 
 /**
  * Checks if a word is a nasty word, 
- * by searching in a JSON file with nasty words.
+ * by searching from a JSON file with nasty words.
  * 
  * @author paolobi
  */
@@ -36,7 +36,7 @@ public class WordInspector {
 		}
 	}
 	
-	// Word has to be already normalized and without not safe characters
+	// Word has to be already normalized and without unsafe characters
 	public boolean isNasty(String word){
 		
 		boolean nasty = false;
