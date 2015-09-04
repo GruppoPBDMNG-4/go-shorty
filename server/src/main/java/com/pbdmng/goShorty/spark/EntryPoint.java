@@ -12,7 +12,7 @@ public class EntryPoint {
 	
 	public static void main( String[] args ) {
 		RandomPopulator.populate();
-		externalStaticFileLocation("../client");
+		externalStaticFileLocation("../client/dist");
         RestService.setUpRoutes();
 	}
 	
