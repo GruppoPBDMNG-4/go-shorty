@@ -1,1 +1,8 @@
-<p>This is the about view.</p>
+<div class="jumbotron">
+  <h1>Statistic</h1>
+  <p class="lead">
+    <br>
+    Insert the short url<input type="text" value="here" ng-model="shortUrl"> mai friend</p>
+  <p><a class="btn btn-lg btn-success" ng-click="getStats()">Go!<span class="glyphicon glyphicon-ok"></span></a></p>
+  <div ng-show="shortUrl"><p>short: {{rispostaJson}}</p></div>
+</div>

@@ -24,14 +24,11 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
+      .when('/stat', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
-      .when('/rest/go-shorty', {
-      templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',})
       .otherwise({
         redirectTo: '/'
       });
