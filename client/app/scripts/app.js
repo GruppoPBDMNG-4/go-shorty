@@ -29,6 +29,9 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/rest/go-shorty', {
+      templateUrl: 'views/about.html',
+        controller: 'AboutCtrl',})
       .otherwise({
         redirectTo: '/'
       });
