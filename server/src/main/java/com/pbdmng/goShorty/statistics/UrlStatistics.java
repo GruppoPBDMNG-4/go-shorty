@@ -20,6 +20,7 @@ public class UrlStatistics {
 	Map<String, Integer> browserStats = new HashMap<String, Integer>();
 	Map<String, Integer> countryStats = new HashMap<String, Integer>();
 	Map<String, Integer> dateStats = new HashMap<String, Integer>();
+	int numClicks;
 	
 	public UrlStatistics(String shortUrl){
 		this.shortUrl = shortUrl;
@@ -35,6 +36,7 @@ public class UrlStatistics {
 		if(dao.isPresent(shortUrl)){
 			
 			clickList = dao.fetchClicks(shortUrl, 0, -1).getClickList();
+			this.numClicks = clickList.size();
 			for(Click click : clickList){
 				
 				browserStats.put(click.getBrowser(), browserStats.getOrDefault(click.getBrowser(), 0) + 1);

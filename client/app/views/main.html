@@ -16,3 +16,29 @@
             </form>
             <div ng-show="shortUrl"><p>short: {{shortUrl}}</p></div>
 </div>
+
+<div class="jumbotron">
+  <form role="form">
+      <div class="row marketing">
+        <div class="form-group">
+          <p>
+            <input type="text" ng-model="longUrl" placeholder="Insert a long URL" class="form-control input-lg">
+          </p>
+          <p>
+            <input type="text" ng-model="custom" placeholder="Add custom text" class="form-control input-lg">
+          </p>
+          <p>
+            <a class="btn btn-lg btn-success" ng-href="#/" ng-click="takeShort()">go 
+              <span class="glyphicon glyphicon-ok"></span>
+            </a>
+          </p>
+          <p>
+            <div ng-show="shortUrl" class="alert alert-success">{{shortUrl}}</div>
+          </p>
+          <p>
+            <div ng-show="err" class="alert alert-danger">{{err}}</div>
+          </p>
+        </div>
+      </div>
+    </form> 
+</div>

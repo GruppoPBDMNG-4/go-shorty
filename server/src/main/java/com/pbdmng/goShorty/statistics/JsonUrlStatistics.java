@@ -36,6 +36,7 @@ public class JsonUrlStatistics extends UrlStatistics{
 		jsonStats.add("browserStats", this.jsonBrowserStats);
 		jsonStats.add("countryStats", this.jsonCountryStats);
 		jsonStats.add("dateStats", this.jsonDateStats);
+		jsonStats.addProperty("numClicks", this.numClicks);
 		
 		return jsonStats.toString();
 	}

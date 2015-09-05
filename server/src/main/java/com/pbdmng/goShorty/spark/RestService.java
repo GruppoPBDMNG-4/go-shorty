@@ -25,7 +25,7 @@ public class RestService {
 	private static final String READ_STATS = "/stats/:shorty";
 	private static final String REDIRECT = "/:shorty";
 	private static final String PREVIEW = "/:shorty/preview";
-	private static final String ERROR = "error";
+	private static final String ERROR = "err";
 	
 	public static void setUpRoutes(){
 		setUpShorteningRoute();
