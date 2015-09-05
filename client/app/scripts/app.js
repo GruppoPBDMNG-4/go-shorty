@@ -8,8 +8,7 @@
  *
  * Main module of the application.
  */
-angular
-  .module('clientApp', [
+ angular.module('clientApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -17,6 +16,7 @@ angular
     'ngSanitize',
     'ngTouch'
   ])
+
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -33,3 +33,4 @@ angular
         redirectTo: '/'
       });
   });
+
