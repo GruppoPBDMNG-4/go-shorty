@@ -24,7 +24,7 @@
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/stat', {
+      .when('/stats', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'

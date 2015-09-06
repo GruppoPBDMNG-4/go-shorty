@@ -10,12 +10,14 @@
 angular.module('clientApp')
   
   .controller('AboutCtrl', function ($scope,$http) {
+
   	$scope.shortUrl = "here" ;
+
   	$scope.getStats = function(){
-  		$http.get("/rest/stats"+"/"+$scope.shortUrl)
-  		.success(function(data) {
-  			console.log('lets stats!');
-  			$scope.rispostaJson = data;
+  		$http.get("/rest/stats" + "/" + $scope.shortUrl)
+  		  .success(function(data) {
+    			console.log('lets stats!');
+    			$scope.rispostaJson = data;
   		});
   	};
 
@@ -25,4 +27,7 @@ angular.module('clientApp')
       'Karma'
     ];
 
-  });
+  }
+
+
+);

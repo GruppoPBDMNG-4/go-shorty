@@ -33,14 +33,14 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/">client</a>
+            <a class="navbar-brand" href="#/"><b>go-shorty</b></a>
           </div>
           
-          <div class="collapse navbar-collapse" id="js-navbar-collapse" >
+          <div class="collapse navbar-collapse" id="js-navbar-collapse" ng-controller="HeaderController">
 
             <ul class="nav navbar-nav">
-              <li ><a  href="#/">Home</a></li>
-              <li ><a  href="#/stat">Statistic</a></li>
+              <li ng-class="{ active: isActive('/')}"><a href="#/">Home</a></li>
+              <li ng-class="{ active: isActive('/stats')}"><a href="#/stats">Statistic</a></li>
             </ul>
           </div>
           
@@ -57,7 +57,6 @@
         <p><span class="glyphicon glyphicon-heart"></span> from the GruppoPBDMNG-4 team</p>
       </div>
     </div>
-
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -86,10 +85,9 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-         <script src="scripts/controllers/header.js"></script>
+        <script src="scripts/controllers/header.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
-       
         <!-- endbuild -->
 </body>
 </html>
