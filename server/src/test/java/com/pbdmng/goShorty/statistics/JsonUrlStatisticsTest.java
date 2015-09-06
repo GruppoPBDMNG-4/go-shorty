@@ -44,6 +44,7 @@ public class JsonUrlStatisticsTest extends TestCase {
 		jsonCountryStats.addProperty("GB", 1);
 		jsonCountryStats.addProperty("CN", 1);
 		
+		
 		String date = LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue();
 		jsonDateStats.addProperty(date, 4);
 		jsonDateStats.addProperty("2011-1", 1);
@@ -51,6 +52,7 @@ public class JsonUrlStatisticsTest extends TestCase {
 		jsonExpected.add("browserStats", jsonBrowserStats);
 		jsonExpected.add("countryStats", jsonCountryStats);
 		jsonExpected.add("dateStats", jsonDateStats);
+		jsonExpected.addProperty("numClicks", clickArray.length);
 	}
 
 	protected void tearDown() throws Exception {
@@ -60,9 +62,9 @@ public class JsonUrlStatisticsTest extends TestCase {
 	}
 	
 	public void testgetStats() {
-		JsonUrlStatistics jsonUrlStatistics = new JsonUrlStatistics("jUnitTest");
+		//JsonUrlStatistics jsonUrlStatistics = new JsonUrlStatistics("jUnitTest");
 		Gson gson = new Gson();
-		JsonObject jsonActual = gson.fromJson(jsonUrlStatistics.getStats(), JsonObject.class);
+		JsonObject jsonActual = gson.fromJson(JsonUrlStatistics.getStats("jUnitTest"), JsonObject.class);
 		
 		assertEquals("Test failed", jsonExpected, jsonActual);
 			

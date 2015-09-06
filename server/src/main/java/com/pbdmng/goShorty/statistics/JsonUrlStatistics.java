@@ -9,49 +9,63 @@ import com.google.gson.JsonObject;
  */
 public class JsonUrlStatistics extends UrlStatistics{
 	
-	private JsonObject jsonBrowserStats = new JsonObject();
-	private JsonObject jsonCountryStats = new JsonObject();
-	private JsonObject jsonDateStats = new JsonObject();
-
+	static JsonObject jsonBrowserStats;
+	static JsonObject jsonCountryStats;
+	static JsonObject jsonDateStats;
 	
-	public JsonUrlStatistics(String shortUrl){
+	/*public JsonUrlStatistics(String shortUrl){
 		super(shortUrl);
 		generateJson();
-	}
+	}*/
 	
 	
-	private void generateJson(){
-		this.browserStats.forEach((browser, freq) -> 
+	public static void generateJson(String shortUrl){
+		jsonBrowserStats = new JsonObject();
+		jsonCountryStats = new JsonObject();
+		jsonDateStats = new JsonObject();
+		
+		generateStats(shortUrl);
+		browserStats.forEach((browser, freq) -> 
 			jsonBrowserStats.addProperty(browser, freq));
 		
-		this.countryStats.forEach((country, freq) -> 
+		countryStats.forEach((country, freq) -> 
 			jsonCountryStats.addProperty(country, freq));
 		
-		this.dateStats.forEach((date, freq) -> 
+		dateStats.forEach((date, freq) -> 
 			jsonDateStats.addProperty(date, freq));
+		
+		UrlStatistics.resetStats();
 	}
 	
-	public String getStats(){
+	public static String getStats(String shortUrl){
 		JsonObject jsonStats = new JsonObject();
-		jsonStats.add("browserStats", this.jsonBrowserStats);
-		jsonStats.add("countryStats", this.jsonCountryStats);
-		jsonStats.add("dateStats", this.jsonDateStats);
-		jsonStats.addProperty("numClicks", this.numClicks);
+		generateJson(shortUrl);
+		
+		jsonStats.add("browserStats", jsonBrowserStats);
+		jsonStats.add("countryStats", jsonCountryStats);
+		jsonStats.add("dateStats", jsonDateStats);
+		jsonStats.addProperty("numClicks", numClicks);
+		resetJsonStats();
 		
 		return jsonStats.toString();
 	}
 	
-	
-	public String getBrowserStats(){
-		return this.jsonBrowserStats.toString();
+	public static void resetJsonStats(){
+		jsonBrowserStats = null;
+		jsonCountryStats = null;
+		jsonDateStats = null;
 	}
 	
-	public String getCountryStats(){
-		return this.jsonCountryStats.toString();
+	public static String getBrowserStats(){
+		return jsonBrowserStats.toString();
 	}
 	
-	public String getDateStats(){
-		return this.jsonDateStats.toString();
+	public static String getCountryStats(){
+		return jsonCountryStats.toString();
+	}
+	
+	public static String getDateStats(){
+		return jsonDateStats.toString();
 	}
 	
 }

@@ -37,6 +37,6 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "angular-chartjs": "0.0.5"
+    
   }
 }

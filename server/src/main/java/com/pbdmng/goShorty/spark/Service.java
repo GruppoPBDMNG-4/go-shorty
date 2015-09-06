@@ -139,9 +139,9 @@ public class Service {
 		
 		if( !(dao.isPresent(shortUrl)) ) 
 			throw new NonexistentShortUrlException("Short url not present");
-		JsonUrlStatistics jStats = new JsonUrlStatistics(shortUrl);
+		//JsonUrlStatistics jStats = new JsonUrlStatistics(shortUrl);
 		
-		return jStats.getStats();
+		return JsonUrlStatistics.getStats(shortUrl);
 	}
 	
 }

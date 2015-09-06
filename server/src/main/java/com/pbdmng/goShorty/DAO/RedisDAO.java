@@ -96,7 +96,6 @@ public class RedisDAO implements DAO {
 		} catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
 		return present;
 	}
 	

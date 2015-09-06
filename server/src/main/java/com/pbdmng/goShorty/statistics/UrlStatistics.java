@@ -16,19 +16,23 @@ import java.util.Map;
  */
 public class UrlStatistics {
 	
-	String shortUrl;
-	Map<String, Integer> browserStats = new HashMap<String, Integer>();
-	Map<String, Integer> countryStats = new HashMap<String, Integer>();
-	Map<String, Integer> dateStats = new HashMap<String, Integer>();
-	int numClicks;
+	static String shortUrl;
+	static Map<String, Integer> browserStats;
+	static Map<String, Integer> countryStats;
+	static Map<String, Integer> dateStats;
+	static int numClicks;
 	
-	public UrlStatistics(String shortUrl){
+	/*public UrlStatistics(String shortUrl){
 		this.shortUrl = shortUrl;
 		generateStats();
-	}
+	}*/
 	
 	
-	private void generateStats(){
+	public static void generateStats(String shortUrl){
+		
+		browserStats = new HashMap<String, Integer>();
+		countryStats = new HashMap<String, Integer>();
+		dateStats = new HashMap<String, Integer>();
 		
 		RedisDAO dao = new RedisDAO();
 		List<Click> clickList = new ArrayList<Click>();
@@ -36,7 +40,7 @@ public class UrlStatistics {
 		if(dao.isPresent(shortUrl)){
 			
 			clickList = dao.fetchClicks(shortUrl, 0, -1).getClickList();
-			this.numClicks = clickList.size();
+			numClicks = clickList.size();
 			for(Click click : clickList){
 				
 				browserStats.put(click.getBrowser(), browserStats.getOrDefault(click.getBrowser(), 0) + 1);
@@ -49,6 +53,12 @@ public class UrlStatistics {
 				dateStats.put(date, dateStats.getOrDefault(date, 0) + 1);
 			}
 		}
+	}
+	
+	public static void resetStats(){
+		browserStats = null;
+		countryStats = null;
+		dateStats = null;
 	}
 	
 }

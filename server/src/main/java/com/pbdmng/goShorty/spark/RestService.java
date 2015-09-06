@@ -32,7 +32,7 @@ public class RestService {
 		setUpRedirectRoute(); 
 		setUpStatsRoute();
 		setUpPreviewRoute();
-    	setPageNotFound();
+    	//setPageNotFound();
     	setUpOptions();
 	}
 	
@@ -139,7 +139,7 @@ public class RestService {
 	 */
 	private static void setUpStatsRoute(){
 		
-		get(REST  + READ_STATS, (request, response) -> {
+		get(REST + READ_STATS, (request, response) -> {
 			String jsonResponse;
 			JsonObject jsonError = new JsonObject();
 			try{
@@ -150,17 +150,18 @@ public class RestService {
 				jsonResponse = jsonError.toString();
 				response.status(500);
 			}
+			
 			return jsonResponse;
 		});
 		
 	}
 	
-	private static void setPageNotFound() {
+	/*private static void setPageNotFound() {
 		get(REST  + "/404.html", (request, response) -> {
 			response.redirect("/app/404.html");
 			return null;
 		});
-	}
+	}*/
 	
 	private static void setUpOptions() {
 		

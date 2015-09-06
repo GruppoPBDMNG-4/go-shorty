@@ -6,6 +6,9 @@
 	    <p><a class="btn btn-lg btn-success" ng-click="getStats()">Go!<span class="glyphicon glyphicon-ok">
 	   </span></a></p>
 	   <div ng-show="rispostaJson">
-	   <p>short: {{rispostaJson}}</p>
-  </div>
+		   <p>short: {{rispostaJson.numClicks}}</p>
+	  </div>
+  
 </div>
+
+<canvas id="browserStats" width="400" height="200"></canvas>
