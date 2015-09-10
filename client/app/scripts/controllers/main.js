@@ -10,6 +10,9 @@
 angular.module('clientApp')
 
   .controller('MainCtrl', function ($scope,$http) {
+
+    $scope.host = location.host;
+
     $scope.longUrl = "";
     $scope.custom = "";
     $scope.btn = "GO!";
@@ -21,14 +24,14 @@ angular.module('clientApp')
       res.success(function(data) {
   			console.log('Inserted!');
   			$scope.rispostaJson = data;
-  			$scope.shortUrl = "http://localhost:4567/" + $scope.rispostaJson.shortUrl;
-        $scope.err= "";
+  			$scope.shortUrl = "http://" + $scope.host + "/" + $scope.rispostaJson.shortUrl;
+        $scope.err = "";
   		});
 
       res.error(function(data) {
         $scope.rispostaJson = data || "request failed";
         $scope.err = $scope.rispostaJson.err ;
-        $scope.shortUrl= "";
+        $scope.shortUrl = "";
         });
     };
 

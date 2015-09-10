@@ -11,30 +11,36 @@ angular.module('clientApp')
   
   .controller('AboutCtrl', function ($scope, $http) {
 
-  	$scope.shortUrl = "" ;
+    //$scope.host = location.host;
+  	$scope.shortUrl = "";
 
   	$scope.getStats = function(){
-  		var res = $http.get("/rest/stats" + "/" + $scope.shortUrl);
+      var shorty = $scope.shortUrl;
+      shorty = shorty.replace("http://" + location.host, "");
+
+  		var res = $http.get("/rest/stats/" + shorty);
 
   		res.success(function(data) {
     		console.log('lets stats!');
     		$scope.rispostaJson = data;
-        //stats = rispostaJson.browserStats;
+
         populateBrowserChart(data.browserStats);
         populateCountryChart(data.countryStats);
+        populateDateChart(data.dateStats);
+        $scope.err = "";
 
   		});
 
       res.error(function(data) {
         $scope.rispostaJson = data || "request failed";
         $scope.err = $scope.rispostaJson.err ;
-        $scope.shortUrl= "";
-        });
+        $scope.shortUrl = "";
+      });
 
   	};
 
-    var browserColor = {chrome:'#00933B', firefox:'#FF9800', safari:'#00BCD4', explorer:'#01579B', opera:'#BF360C'};
-
+    var browserColor = {chrome:'#00796B', firefox:'#FDB45C', safari:'#00BCD4', explorer:'#01579B', opera:'#F7464A', other:'#607D8B'};
+    var countryColor = {IT:'#8BC34A', DE:'#37474F', US:'#B71C1C', JP:'#F44336', FR:'#3F51B5', GB:'#0D47A1', IN:'#FF9800', ES:'#FFEB3B', MX:'#4CAF50'};
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -58,9 +64,7 @@ angular.module('clientApp')
       container.appendChild(canvas);
 
       var descContainer = document.getElementById("browser-desc-container");
-      while (descContainer.firstChild) {
-          descContainer.removeChild(descContainer.firstChild);
-      }
+      clearContainer(descContainer);
 
       for (var key in stats) {
         var singleStat = {
@@ -71,19 +75,20 @@ angular.module('clientApp')
         };
         pieData.push(singleStat);
 
-        var rowLabel = document.createElement('div');
-        rowLabel.setAttribute('class', 'row');
+        //var rowLabel = document.createElement('div');
+        //rowLabel.setAttribute('class', 'row');
         var keyLabel = document.createElement('span');
         var t = document.createTextNode(key);
         keyLabel.appendChild(t);
         keyLabel.setAttribute('class', 'label label-default');
-        keyLabel.setAttribute('style', 'background-color:' + browserColor[key]);
-        rowLabel.appendChild(keyLabel);
-        descContainer.appendChild(rowLabel);
+        keyLabel.setAttribute('style', 'padding: 5px; margin:2px; background-color:' + browserColor[key]);
+        //rowLabel.appendChild(keyLabel);
+        descContainer.appendChild(keyLabel);
       }
 
       pieOptions = {
-        segmentShowStroke : false,
+        segmentShowStroke : true,
+        segmentStrokeColor : "#f5f5f5",
         animateScale : true
       };
       bStats = document.getElementById("bStats").getContext("2d");
@@ -104,18 +109,21 @@ angular.module('clientApp')
       countryCanvas.height = '200';
       countryCanvas.setAttribute('id', 'cStats');
 
+
       var container = document.getElementById("country-chart-container");
       container.removeChild(container.firstChild);
       container.appendChild(countryCanvas);
 
       var descContainer = document.getElementById("country-desc-container");
-      while (descContainer.firstChild) {
-          descContainer.removeChild(descContainer.firstChild);
-      }
+      clearContainer(descContainer);
 
       for (var key in stats) {
-        var currentColor = '#'+(function lol(m,s,c){
-            return s[m.floor(m.random() * s.length)] + (c && lol(m,s,c-1));})(Math,'0123456789ABCDEF',4);
+        // random color
+        var currentColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        if(countryColor.hasOwnProperty(key)){
+          currentColor = countryColor[key];
+        }
+        //var currentColor = '#'+(function lol(m,s,c){ return s[m.floor(m.random() * s.length)] + (c && lol(m,s,c-1));})(Math,'0123456789ABCDEF',4);
         var singleStat = {
           value: stats[key],
           color: currentColor,
@@ -124,19 +132,20 @@ angular.module('clientApp')
         };
         pieCountryData.push(singleStat);
 
-        var rowLabel = document.createElement('div');
-        rowLabel.setAttribute('class', 'row');
+        //var rowLabel = document.createElement('div');
+        //rowLabel.setAttribute('class', 'row');
         var keyLabel = document.createElement('span');
         var t = document.createTextNode(key);
         keyLabel.appendChild(t);
         keyLabel.setAttribute('class', 'label');
-        keyLabel.setAttribute('style', 'background-color:' + currentColor);
-        rowLabel.appendChild(keyLabel);
-        descContainer.appendChild(rowLabel);
+        keyLabel.setAttribute('style', 'padding: 5px; margin:2px; background-color:' + currentColor);
+        //rowLabel.appendChild(keyLabel);
+        descContainer.appendChild(keyLabel);
       }
 
       pieCountryOptions = {
-        segmentShowStroke : false,
+        segmentShowStroke : true,
+        segmentStrokeColor : "#f5f5f5",
         animateScale : true
       };
       countryStats = document.getElementById("cStats").getContext("2d");
@@ -145,9 +154,59 @@ angular.module('clientApp')
     }
 
 
-    /*function randomHexColor(m,s,c){
-      return s[m.floor(m.random() * s.length)] + (c && lol(m,s,c-1));
-    }*/
+
+
+
+
+    var pieDateData = [];
+    var pieDateOptions;
+    var dStats;
+    var myPieDateChart;
+    
+    function populateDateChart(stats){
+      pieDateData = [];
+      var container = document.getElementById("date-chart-container");
+      var canvas = document.createElement('canvas');
+      canvas.width = parseFloat(window.getComputedStyle(container).width);
+      canvas.height = '300';
+      canvas.setAttribute('id', 'dStats');
+
+      container.removeChild(container.firstChild);
+      container.appendChild(canvas);
+      var dLabels = [];
+      var dData = [];
+
+      for (var key in stats) {
+        dLabels.push(key);
+      }
+      dLabels.sort();
+
+      for(var i = 0; i < dLabels.length; i++){
+        dData.push(stats[ dLabels[i] ]);
+      }
+
+      pieDateData = {
+        labels: dLabels,
+        datasets: [
+          {
+              label: "My First dataset",
+              fillColor: "#FDD835",
+              highlightFill: "#f0ad4e",
+              data: dData
+          }
+        ]
+      };
+      dStats = document.getElementById("dStats").getContext("2d");
+      myPieDateChart = new Chart(dStats).Bar(pieDateData, pieDateOptions);
+
+    }
+
+    function clearContainer(container){
+      while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+    }
+
 
   }
 
