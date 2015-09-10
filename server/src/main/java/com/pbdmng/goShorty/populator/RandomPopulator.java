@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.Random;
+import static java.lang.System.out;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -19,6 +20,7 @@ import com.google.gson.JsonElement;
  * It populates the DB the first time it is executed.
  * Fetches URLs from a JSON file and generates
  * random IP, browser and date.
+ * 
  * @author chris
  */
 public class RandomPopulator {
@@ -62,6 +64,8 @@ public class RandomPopulator {
 				
 			}while( ((reply.getResultCode().getCode()) != ResultCodeDAO.INSERTED.getCode()) 
 					&& attempt < MAX_ATTEMPTS );
+			
+			out.println("Inserted -> shortUrl: " + shortUrl + " longUrl: " + longUrl);
 			
 			for(int i = 0; i < rnd.nextInt(15); i++){
 				click.setIP(randomIP());

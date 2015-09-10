@@ -1,6 +1,7 @@
 package com.pbdmng.goShorty.spark;
 
 import java.text.Normalizer;
+import static java.lang.System.out;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -77,6 +78,7 @@ public class Service {
 		}
 		jsonResponse.addProperty("shortUrl", shortUrl);
 		jsonResponse.addProperty("stats", "/rest/stats/:" + shortUrl);
+		out.println(longUrl + " shortened to " + shortUrl);
 		
 		return jsonResponse.toString();
 	}
@@ -103,6 +105,7 @@ public class Service {
 			longUrl = reply.getLongUrl();
 		} else throw new DeadLinkException("404");
 		
+		out.println("Redirecting to: " + longUrl);
 		return longUrl;
 	}
 	
@@ -139,8 +142,8 @@ public class Service {
 		
 		if( !(dao.isPresent(shortUrl)) ) 
 			throw new NonexistentShortUrlException("Short url not present");
-		//JsonUrlStatistics jStats = new JsonUrlStatistics(shortUrl);
 		
+		out.println("Getting stats of: " + shortUrl);
 		return JsonUrlStatistics.getStats(shortUrl);
 	}
 	

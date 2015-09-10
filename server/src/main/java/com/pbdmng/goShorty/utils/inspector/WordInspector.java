@@ -49,7 +49,7 @@ public class WordInspector {
 				aNastyWord = Normalizer.normalize(aNastyWord, Normalizer.Form.NFD)
 							.replaceAll("[^0-9.a-zA-Z-_]", "");
 				
-				if(word.equalsIgnoreCase(aNastyWord)){
+				if(word.toLowerCase().contains(aNastyWord.toLowerCase())){
 					nasty = true; 
 					break;
 				}	

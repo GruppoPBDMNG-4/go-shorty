@@ -18,7 +18,6 @@ public class JsonUrlStatistics extends UrlStatistics{
 		generateJson();
 	}*/
 	
-	
 	public static void generateJson(String shortUrl){
 		jsonBrowserStats = new JsonObject();
 		jsonCountryStats = new JsonObject();
@@ -45,6 +44,7 @@ public class JsonUrlStatistics extends UrlStatistics{
 		jsonStats.add("countryStats", jsonCountryStats);
 		jsonStats.add("dateStats", jsonDateStats);
 		jsonStats.addProperty("numClicks", numClicks);
+		jsonStats.addProperty("longUrl", longUrl);
 		resetJsonStats();
 		
 		return jsonStats.toString();

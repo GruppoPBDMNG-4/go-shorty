@@ -10,8 +10,7 @@
 angular.module('clientApp')
   
   .controller('AboutCtrl', function ($scope, $http) {
-
-    //$scope.host = location.host;
+    
   	$scope.shortUrl = "";
 
   	$scope.getStats = function(){
@@ -41,6 +40,7 @@ angular.module('clientApp')
 
     var browserColor = {chrome:'#00796B', firefox:'#FDB45C', safari:'#00BCD4', explorer:'#01579B', opera:'#F7464A', other:'#607D8B'};
     var countryColor = {IT:'#8BC34A', DE:'#37474F', US:'#B71C1C', JP:'#F44336', FR:'#3F51B5', GB:'#0D47A1', IN:'#FF9800', ES:'#FFEB3B', MX:'#4CAF50'};
+    
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -75,14 +75,12 @@ angular.module('clientApp')
         };
         pieData.push(singleStat);
 
-        //var rowLabel = document.createElement('div');
-        //rowLabel.setAttribute('class', 'row');
         var keyLabel = document.createElement('span');
         var t = document.createTextNode(key);
         keyLabel.appendChild(t);
         keyLabel.setAttribute('class', 'label label-default');
         keyLabel.setAttribute('style', 'padding: 5px; margin:2px; background-color:' + browserColor[key]);
-        //rowLabel.appendChild(keyLabel);
+        
         descContainer.appendChild(keyLabel);
       }
 
@@ -123,7 +121,7 @@ angular.module('clientApp')
         if(countryColor.hasOwnProperty(key)){
           currentColor = countryColor[key];
         }
-        //var currentColor = '#'+(function lol(m,s,c){ return s[m.floor(m.random() * s.length)] + (c && lol(m,s,c-1));})(Math,'0123456789ABCDEF',4);
+
         var singleStat = {
           value: stats[key],
           color: currentColor,
@@ -132,14 +130,12 @@ angular.module('clientApp')
         };
         pieCountryData.push(singleStat);
 
-        //var rowLabel = document.createElement('div');
-        //rowLabel.setAttribute('class', 'row');
         var keyLabel = document.createElement('span');
         var t = document.createTextNode(key);
         keyLabel.appendChild(t);
         keyLabel.setAttribute('class', 'label');
         keyLabel.setAttribute('style', 'padding: 5px; margin:2px; background-color:' + currentColor);
-        //rowLabel.appendChild(keyLabel);
+        
         descContainer.appendChild(keyLabel);
       }
 
@@ -152,10 +148,6 @@ angular.module('clientApp')
       myPieCountryChart = new Chart(countryStats).Pie(pieCountryData, pieCountryOptions);
 
     }
-
-
-
-
 
 
     var pieDateData = [];
@@ -189,7 +181,7 @@ angular.module('clientApp')
         labels: dLabels,
         datasets: [
           {
-              label: "My First dataset",
+              label: "date dataset",
               fillColor: "#FDD835",
               highlightFill: "#f0ad4e",
               data: dData

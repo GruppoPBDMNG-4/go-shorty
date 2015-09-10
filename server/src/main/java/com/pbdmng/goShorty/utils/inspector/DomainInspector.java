@@ -52,7 +52,7 @@ public class DomainInspector {
 		
 		for (JsonElement j : jArray){
 			aNastyDomain = j.toString().replace("\"", "");
-			if(domain.contains(aNastyDomain)) {
+			if(domain.toLowerCase().contains(aNastyDomain)) {
 				nasty = true; 
 				break;
 			}

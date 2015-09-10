@@ -21,11 +21,8 @@ public class UrlStatistics {
 	static Map<String, Integer> countryStats;
 	static Map<String, Integer> dateStats;
 	static int numClicks;
-	
-	/*public UrlStatistics(String shortUrl){
-		this.shortUrl = shortUrl;
-		generateStats();
-	}*/
+	static String longUrl;
+	static DAO dao = new RedisDAO();
 	
 	
 	public static void generateStats(String shortUrl){
@@ -34,13 +31,13 @@ public class UrlStatistics {
 		countryStats = new HashMap<String, Integer>();
 		dateStats = new HashMap<String, Integer>();
 		
-		RedisDAO dao = new RedisDAO();
 		List<Click> clickList = new ArrayList<Click>();
 		
 		if(dao.isPresent(shortUrl)){
 			
 			clickList = dao.fetchClicks(shortUrl, 0, -1).getClickList();
 			numClicks = clickList.size();
+			longUrl = dao.fetchLongUrl(shortUrl).getLongUrl();
 			for(Click click : clickList){
 				
 				browserStats.put(click.getBrowser(), browserStats.getOrDefault(click.getBrowser(), 0) + 1);
