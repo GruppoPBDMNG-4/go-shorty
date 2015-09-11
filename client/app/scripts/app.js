@@ -25,7 +25,7 @@
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/stats', {
+      .when('/stats/:shorty?', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'

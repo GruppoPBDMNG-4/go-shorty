@@ -9,10 +9,11 @@
  */
 angular.module('clientApp')
   
-  .controller('AboutCtrl', function ($scope, $http) {
+  .controller('AboutCtrl', function ($scope, $http, $routeParams) {
     
   	$scope.shortUrl = "";
 
+    
   	$scope.getStats = function(){
       var shorty = $scope.shortUrl;
       shorty = shorty.replace("http://" + location.host, "");
@@ -22,10 +23,11 @@ angular.module('clientApp')
   		res.success(function(data) {
     		console.log('lets stats!');
     		$scope.rispostaJson = data;
-
-        populateBrowserChart(data.browserStats);
-        populateCountryChart(data.countryStats);
-        populateDateChart(data.dateStats);
+        //if ($scope.rispostaJson.numClicks !== 0) {
+          populateBrowserChart(data.browserStats);
+          populateCountryChart(data.countryStats);
+          populateDateChart(data.dateStats);
+        //}
         $scope.err = "";
 
   		});
@@ -37,6 +39,11 @@ angular.module('clientApp')
       });
 
   	};
+
+    if($routeParams.shorty){
+      $scope.shortUrl = $routeParams.shorty;
+      $scope.getStats();
+    }
 
     var browserColor = {chrome:'#00796B', firefox:'#FDB45C', safari:'#00BCD4', explorer:'#01579B', opera:'#F7464A', other:'#607D8B'};
     var countryColor = {IT:'#8BC34A', DE:'#37474F', US:'#B71C1C', JP:'#F44336', FR:'#3F51B5', GB:'#0D47A1', IN:'#FF9800', ES:'#FFEB3B', MX:'#4CAF50'};
@@ -52,6 +59,7 @@ angular.module('clientApp')
     var bStats;
     var myPieChart;
     
+    // must ... not ... manipulate ... the DOM ... NEVER MIND
     function populateBrowserChart(stats){
       pieData = [];
       var canvas = document.createElement('canvas');
@@ -183,7 +191,7 @@ angular.module('clientApp')
           {
               label: "date dataset",
               fillColor: "#FDD835",
-              highlightFill: "#f0ad4e",
+              highlightFill: "#FFC107",
               data: dData
           }
         ]

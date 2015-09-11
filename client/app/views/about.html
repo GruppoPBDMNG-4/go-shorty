@@ -13,17 +13,23 @@
 
 <div class="jumbotron">
 	<p class="h2" style="font-weight: bold; color: #B71C1C">Statistics</p>
-	<p>
-    	<input type="text" ng-model="shortUrl" placeholder="Insert shortURL to get stats" class="form-control input-lg">
-    </p>
-    <p>
-    	<a class="btn btn-lg btn-success" ng-click="getStats()">go 
-        	<span class="glyphicon glyphicon-ok"></span>
-        </a>
-    </p>
-    <p>
-    	<div ng-show="err" class="alert alert-danger">{{err}}</div>
-    </p>
+	<form role="form">
+    	<div class="row marketing">
+	        <div class="form-group">
+				<p>
+		    		<input type="text" ng-model="shortUrl" placeholder="Insert shortURL to get stats" class="form-control input-lg">
+		    	</p>
+		    	<p>
+		    		<a class="btn btn-lg btn-success" ng-click="getStats()">go 
+		        		<span class="glyphicon glyphicon-ok"></span>
+		        	</a>
+			    </p>
+			    <p>
+		    		<div ng-show="err" class="alert alert-danger">{{err}}</div>
+		    	</p>
+	    	</div>
+    	</div>
+    </form>
 </div>
 
 <div class="well h2" ng-show="rispostaJson.numClicks">
@@ -31,6 +37,13 @@
 		number of clicks: <b> {{rispostaJson.numClicks}}</b>
 	</p>
 </div>
+
+<div class="well h2 container-fluid" ng-show="rispostaJson.longUrl">
+	<p class="text-center" style="color:#37474F">
+		long URL: <b> {{rispostaJson.longUrl}}</b>
+	</p>
+</div>
+
 
 	<!--
 	<div id="chart-container" ng-show="rispostaJson">

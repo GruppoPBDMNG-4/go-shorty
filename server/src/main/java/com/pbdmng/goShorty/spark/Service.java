@@ -77,7 +77,7 @@ public class Service {
 				throw new CustomUrlPresentException("Custom url already taken");
 		}
 		jsonResponse.addProperty("shortUrl", shortUrl);
-		jsonResponse.addProperty("stats", "/rest/stats/:" + shortUrl);
+		jsonResponse.addProperty("stats", "#/stats/" + shortUrl);
 		out.println(longUrl + " shortened to " + shortUrl);
 		
 		return jsonResponse.toString();
@@ -109,27 +109,6 @@ public class Service {
 		return longUrl;
 	}
 	
-	/**
-	 * Fetches a longUrl from a given shortUrl. 
-	 * 
-	 * @param shortUrl 	necessary to get the longUrl
-	 * @return			its longUrl
-	 * @throws DeadLinkException if the shortUrl is not present
-	 */
-	public String preview(String shortUrl) throws DeadLinkException{
-		ReplyDAO reply;
-		String longUrl;
-		JsonObject jsonLongUrl = new JsonObject();
-		
-		reply = dao.fetchLongUrl(shortUrl);
-		if ( reply.getResultCode().getCode() == ResultCodeDAO.OK.getCode() && !(reply.getLongUrl().equals(""))){
-			longUrl = reply.getLongUrl();
-		} else throw new DeadLinkException("404");
-		
-		
-		jsonLongUrl.addProperty("longUrl", longUrl);
-		return jsonLongUrl.toString();
-	}
 	
 	/**
 	 * Gets statistics about a shortUrl

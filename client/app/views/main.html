@@ -28,7 +28,9 @@
             </a>
           </p>
           <p>
-            <div ng-show="shortUrl" class="alert alert-success">{{shortUrl}}</div>
+            <div ng-show="shortUrl" class="alert alert-success">
+            {{shortUrl}}<a ng-href={{rispostaJson.stats}}> <span class="glyphicon glyphicon-stats" style="float:right"></span></a>
+            </div>
           </p>
           <p>
             <div ng-show="err" class="alert alert-danger">{{err}}</div>

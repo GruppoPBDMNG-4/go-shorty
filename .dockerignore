@@ -1,0 +1,6 @@
+client/bower.json
+client/node_modules
+client/bower_components
+client/test
+client/app
+client/.tmp

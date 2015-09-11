@@ -24,7 +24,7 @@ public class RestService {
 	private static final String CREATE_SHORTY = "/go-shorty";
 	private static final String READ_STATS = "/stats/:shorty";
 	private static final String REDIRECT = "/:shorty";
-	private static final String PREVIEW = "/:shorty/preview";
+	private static final String PREVIEW = "/:shorty/p";
 	private static final String ERROR = "err";
 	
 	public static void setUpRoutes(){
@@ -68,7 +68,7 @@ public class RestService {
 				response.status(500);
 			}catch(NastyWordException e){
 				err.println(e.getMessage());
-				jsonError.addProperty(ERROR, "You're a bad boy");
+				jsonError.addProperty(ERROR, "Hey, go wash your mouth");
 				jsonResponse = jsonError.toString();
 				response.status(500);
 			}catch(CustomUrlPresentException e){
@@ -107,25 +107,16 @@ public class RestService {
 	}
 	
 	/**
-	 * Route listening to "/:shorty/preview" endpoint.
-	 * Returns the longUrl for preview purposes.
+	 * Route listening to "/:shorty/p" endpoint.
+	 * Redirects to the stats page to show the longUrl.
 	 * Uses the GET method as a read operation
 	 * 
 	 */
 	private static void setUpPreviewRoute(){
 		
 		get(PREVIEW, (request, response) -> {
-			String longUrl;
-			try{
-				longUrl = service.preview(request.params(":shorty"));
-			}catch(DeadLinkException e){
-				err.println(e.getMessage());
-				JsonObject jsonErr = new JsonObject(); 
-				jsonErr.addProperty("longUrl", "This URL does not exists");
-				longUrl = jsonErr.toString();
-			}
-			
-			return longUrl;
+			response.redirect("http://" + request.host() + "#/stats/" + request.params(":shorty"));
+			return null;
 		});
 		
 	}
