@@ -191,7 +191,7 @@ public class RedisDAO implements DAO {
 	
 	private static Jedis getIstance() throws Exception{
 		if (jPool == null) {
-			jPool = new JedisPool("localhost");
+			jPool = new JedisPool("db");
 		}
 		return jPool.getResource();
 	} 

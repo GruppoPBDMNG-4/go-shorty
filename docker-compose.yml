@@ -1,0 +1,14 @@
+dataonly:
+  image: chrispiemo/data-only
+redis:
+  image: redis
+  volumes_from:
+   - dataonly
+  command: redis-server --appendonly yes
+spark:
+  build: .
+  ports:
+   - "4567:4567"
+  links:
+   - redis:db
+  command: target/go-shorty-jar-with-dependencies.jar
