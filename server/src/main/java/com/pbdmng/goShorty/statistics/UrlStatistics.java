@@ -45,7 +45,7 @@ public class UrlStatistics {
 				
 				int month = click.getDate().getMonthValue();
 				int year = click.getDate().getYear();
-				String date = year +"-" + month;
+				String date = year + "-" + month;
 				
 				dateStats.put(date, dateStats.getOrDefault(date, 0) + 1);
 			}

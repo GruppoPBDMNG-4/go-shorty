@@ -13,29 +13,39 @@ angular.module('clientApp')
     
   	$scope.shortUrl = "";
 
+    var divPieCharts = document.getElementById('pie-charts');
+    var divBarChart = document.getElementById("bar-chart");
     
-  	$scope.getStats = function(){
+    $scope.getStats = function(){
       var shorty = $scope.shortUrl;
       shorty = shorty.replace("http://" + location.host, "");
+
 
   		var res = $http.get("/rest/stats/" + shorty);
 
   		res.success(function(data) {
-    		console.log('lets stats!');
     		$scope.rispostaJson = data;
-        //if ($scope.rispostaJson.numClicks !== 0) {
-          populateBrowserChart(data.browserStats);
-          populateCountryChart(data.countryStats);
-          populateDateChart(data.dateStats);
-        //}
+        if($scope.rispostaJson.numClicks !== 0){
+          divPieCharts.style.display = 'block';
+          divBarChart.style.display = 'block';
+        }else{
+          divPieCharts.style.display = 'none';
+          divBarChart.style.display = 'none';
+        }
+        console.log('lets stats!');
+        populateBrowserChart(data.browserStats);
+        populateCountryChart(data.countryStats);
+        populateDateChart(data.dateStats);
+        
         $scope.err = "";
-
   		});
 
       res.error(function(data) {
         $scope.rispostaJson = data || "request failed";
         $scope.err = $scope.rispostaJson.err ;
         $scope.shortUrl = "";
+        divPieCharts.style.display = 'none';
+        divBarChart.style.display = 'none';
       });
 
   	};
@@ -45,8 +55,10 @@ angular.module('clientApp')
       $scope.getStats();
     }
 
-    var browserColor = {chrome:'#00796B', firefox:'#FDB45C', safari:'#00BCD4', explorer:'#01579B', opera:'#F7464A', other:'#607D8B'};
-    var countryColor = {IT:'#8BC34A', DE:'#37474F', US:'#B71C1C', JP:'#F44336', FR:'#3F51B5', GB:'#0D47A1', IN:'#FF9800', ES:'#FFEB3B', MX:'#4CAF50'};
+    var browserColor = 
+      {chrome:'#00796B', firefox:'#FDB45C', safari:'#00BCD4', explorer:'#01579B', opera:'#F7464A', other:'#607D8B'};
+    var countryColor = 
+      {IT:'#8BC34A', DE:'#37474F', US:'#B71C1C', JP:'#F44336', FR:'#3F51B5', GB:'#0D47A1', IN:'#FF9800', ES:'#FFEB3B', MX:'#4CAF50'};
     
     this.awesomeThings = [
       'HTML5 Boilerplate',

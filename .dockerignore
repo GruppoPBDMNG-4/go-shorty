@@ -4,3 +4,4 @@ client/bower_components
 client/test
 client/app
 client/.tmp
+server/target

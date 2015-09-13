@@ -20,11 +20,11 @@ public class ServiceTest extends TestCase {
 										+ "\"custom\":\"dockerhub\"}",
 								   };
 	
-	private String[] response = { "{\"shortUrl\":\"SFrY3o0a\",\"stats\":\"/rest/stats/:SFrY3o0a\"}",
-								  "{\"shortUrl\":\"2l4c3o0a\",\"stats\":\"/rest/stats/:2l4c3o0a\"}",
-								  "{\"shortUrl\":\"angular\",\"stats\":\"/rest/stats/:angular\"}",
-								  "{\"shortUrl\":\"X5uZ3o0a\",\"stats\":\"/rest/stats/:X5uZ3o0a\"}",
-								  "{\"shortUrl\":\"dockerhub\",\"stats\":\"/rest/stats/:dockerhub\"}"
+	private String[] response = { "{\"shortUrl\":\"SFrY3o0a\",\"stats\":\"#/stats/SFrY3o0a\"}",
+								  "{\"shortUrl\":\"2l4c3o0a\",\"stats\":\"#/stats/2l4c3o0a\"}",
+								  "{\"shortUrl\":\"angular\",\"stats\":\"#/stats/angular\"}",
+								  "{\"shortUrl\":\"X5uZ3o0a\",\"stats\":\"#/stats/X5uZ3o0a\"}",
+								  "{\"shortUrl\":\"dockerhub\",\"stats\":\"#/stats/dockerhub\"}"
 								};
 	
 	private String[] from = {"SFrY3o0a","2l4c3o0a","angular","X5uZ3o0a","dockerhub"};

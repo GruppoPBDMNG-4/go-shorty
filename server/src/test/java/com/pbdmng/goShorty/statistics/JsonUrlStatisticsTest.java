@@ -53,6 +53,7 @@ public class JsonUrlStatisticsTest extends TestCase {
 		jsonExpected.add("countryStats", jsonCountryStats);
 		jsonExpected.add("dateStats", jsonDateStats);
 		jsonExpected.addProperty("numClicks", clickArray.length);
+		jsonExpected.addProperty("longUrl", "http://jUnitTest.com");
 	}
 
 	protected void tearDown() throws Exception {

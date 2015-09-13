@@ -1,23 +1,11 @@
-<!--<div class="jumbotron">
-  <h2>Statistic</h2>
-  <p class="lead">
-        <br>
-	    Insert the short url<input type="text" value="here" ng-model="shortUrl"> mai friend</p>
-	    <p><a class="btn btn-lg btn-success" ng-click="getStats()">Go!<span class="glyphicon glyphicon-ok">
-	   </span></a></p>
-	   <div ng-show="rispostaJson">
-		   <p>short: {{rispostaJson.numClicks}}</p>
-	  </div>
-</div>-->
-
 
 <div class="jumbotron">
-	<p class="h2" style="font-weight: bold; color: #B71C1C">Statistics</p>
+	<p style="font-weight: bold; color: #B71C1C; font-size: 27px">Statistics</p>
 	<form role="form">
     	<div class="row marketing">
 	        <div class="form-group">
 				<p>
-		    		<input type="text" ng-model="shortUrl" placeholder="Insert shortURL to get stats" class="form-control input-lg">
+		    		<input type="text" ng-model="shortUrl" placeholder="Insert shortURL to get statistics" class="form-control input-lg">
 		    	</p>
 		    	<p>
 		    		<a class="btn btn-lg btn-success" ng-click="getStats()">go 
@@ -32,32 +20,21 @@
     </form>
 </div>
 
-<div class="well h2" ng-show="rispostaJson.numClicks">
+<div class="well h2" ng-show="rispostaJson">
 	<p class="text-center" style="color:#37474F">
 		number of clicks: <b> {{rispostaJson.numClicks}}</b>
 	</p>
 </div>
 
 <div class="well h2 container-fluid" ng-show="rispostaJson.longUrl">
-	<p class="text-center" style="color:#37474F">
+	<p class="text-center" style="color:#37474F; word-wrap: break-word;">
 		long URL: <b> {{rispostaJson.longUrl}}</b>
 	</p>
 </div>
 
-
-	<!--
-	<div id="chart-container" ng-show="rispostaJson">
-		<canvas id="browserStats" width="400" height="200"></canvas>
-	</div>
-
-<div class="well" id="country-chart-container">
-</div>
-	-->
-
-
-<div class="well">
+<div id="bar-chart" class="well" style="display:none">
 	<div class="container-fluid" style="padding:10px">
-	<p ng-show="rispostaJson.dateStats" class=" text-center h2" style="color:#37474F">Clicks per month</p>
+	<p ng-show="rispostaJson.dateStats" class=" text-center h3" style="color:#37474F"><b>Clicks per month</b></p>
 		<div id="date-chart-container">
 	    </div>
 
@@ -65,7 +42,7 @@
 </div>
 
 
-<div class="well">
+<div id="pie-charts" class="well" style="display:none">
 	<div class="container-fluid" style="padding:10px">
 
 	    
@@ -74,13 +51,13 @@
 	        <div class="col-md-4 col-md-offset-1" style="padding:10px">
 
 		        <div ng-show="rispostaJson.browserStats" class="row text-center">
-		        	<p class=" text-center h2" style="color:#37474F">Browser chart</p>
+		        	<p class=" text-center h3" style="color:#37474F; padding-bottom:20px"><b>Browser chart</b></p>
 		        </div>
 
 		        <div class="row" id="browser-chart-container" style="width:auto">
 		        </div>
 
-		        <div class="row" id="browser-desc-container" style="width:auto; padding:10px">
+		        <div class="row" id="browser-desc-container" style="width:auto; padding-top:30px">
 		        </div>
 
 	        </div>
@@ -89,13 +66,13 @@
 	        <div class="col-md-4 col-md-offset-2" style="padding:10px">
 		        
 	        	<div ng-show="rispostaJson.countryStats" class="row text-center">
-		        	<p class=" text-center h2" style="color:#37474F">Country chart</p>
+		        	<p class=" text-center h3" style="color:#37474F; padding-bottom:20px"><b>Country chart</b></p>
 		        </div>
 
 		        <div class="row" id="country-chart-container" style="width:auto">
 		        </div>
 
-		        <div class="row" id="country-desc-container" style="width:auto; padding:10px">
+		        <div class="row" id="country-desc-container" style="width:auto; padding-top:30px">
 		        </div>
 
 	    </div>

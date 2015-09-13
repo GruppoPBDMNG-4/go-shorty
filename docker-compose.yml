@@ -1,7 +1,7 @@
 dataonly:
   image: chrispiemo/data-only
 redis:
-  image: redis
+  image: redis:3.0.4
   volumes_from:
    - dataonly
   command: redis-server --appendonly yes
